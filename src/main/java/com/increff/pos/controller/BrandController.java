@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,14 +29,14 @@ public class BrandController {
 	private BrandService service;
 
 	@ApiOperation(value = "Adds a Brand Master")
-	@RequestMapping(path = "/api/brand", method = RequestMethod.PUT)
+	@PostMapping(value = "/api/brand")
 	public void add(@RequestBody BrandForm form) {
 		BrandPojo p = convert(form);
 		service.add(p);
 	}
 
 	@ApiOperation(value = "Gets a Brand Master")
-	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/api/brand/{id}")
 	public BrandData get(@PathVariable int id) throws ApiException {
 		BrandPojo p = service.get(id);
 		return convert(p);
