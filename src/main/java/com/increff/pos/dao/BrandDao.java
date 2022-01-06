@@ -13,13 +13,13 @@ import com.increff.pos.pojo.BrandPojo;
 @Repository
 public class BrandDao {
 	@PersistenceContext
-	EntityManager emBrand;
+	EntityManager em;
 
 	private static String select_id = "select p from BrandPojo p where id=:id";
 	private static String select_all = "select p from BrandPojo p";
 
 	public void insert(BrandPojo p) {
-		emBrand.persist(p);
+		em.persist(p);
 	}
 
 	public BrandPojo select(int id) {
@@ -39,6 +39,6 @@ public class BrandDao {
 	}
 
 	private TypedQuery<BrandPojo> getQuery(String q) {
-		return emBrand.createQuery(q, BrandPojo.class);
+		return em.createQuery(q, BrandPojo.class);
 	}
 }

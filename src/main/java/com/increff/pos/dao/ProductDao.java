@@ -13,13 +13,13 @@ import com.increff.pos.pojo.ProductPojo;
 @Repository
 public class ProductDao {
 	@PersistenceContext
-	EntityManager emProduct;
+	EntityManager em;
 
 	private static String select_id = "select p from ProductPojo p where id=:id";
 	private static String select_all = "select p from ProductPojo p";
 
 	public void insert(ProductPojo p) {
-		emProduct.persist(p);
+		em.persist(p);
 	}
 
 	public ProductPojo select(int id) {
@@ -40,6 +40,6 @@ public class ProductDao {
 	}
 
 	private TypedQuery<ProductPojo> getQuery(String q) {
-		return emProduct.createQuery(q, ProductPojo.class);
+		return em.createQuery(q, ProductPojo.class);
 	}
 }
