@@ -19,7 +19,7 @@ import com.increff.pos.service.BrandService;
 
 
 @Service
-@Validated
+@Validated//Remove validated -> check with Arpnik
 public class BrandDto {
 
 	@Autowired 
@@ -31,7 +31,7 @@ public class BrandDto {
 		trimSpaces(form);
 		BrandPojo p = BrandHelper.convert(form);
 		service.add(p);
-		return;
+		return; //TODO remove this return
 	}
 
 	@Transactional
@@ -48,7 +48,7 @@ public class BrandDto {
 		}
 		return data;
 	}
-	
+
 	@Transactional(rollbackOn = Exception.class)
 	public void update(int id,BrandForm form) throws BlankException, ApiException {
 		checkEmpty(form);
@@ -57,14 +57,14 @@ public class BrandDto {
 		service.update(id,p);
 	}
 	
-	@Transactional(rollbackOn = BlankException.class)
+	@Transactional(rollbackOn = BlankException.class) //TODO Y is this transaction here and convert this to static and move to helper
 	private void checkEmpty(BrandForm form) throws BlankException {
 		if(form.getBrand().isBlank() || form.getCategory().isBlank()) {
 			throw new BlankException("Brand and Category can not be empty or null");
 		}
 	}
 	
-	@Transactional
+	@Transactional //TODO move to helper
 	private void trimSpaces(BrandForm form) {
 		form.setBrand(form.getBrand().toLowerCase().trim());
 		form.setCategory(form.getCategory().toLowerCase().trim());

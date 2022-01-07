@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+// TODO merge this with API Exception
 public class BlankException extends Exception{
 
 	/**

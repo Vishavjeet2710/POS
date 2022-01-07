@@ -1,5 +1,6 @@
 package com.increff.pos.service;
 
+//TODO move this to model
 public class ApiException extends Exception{
 
 	/**

@@ -17,6 +17,9 @@ public class BrandDao {
 
 	private static String select_id = "select p from BrandPojo p where id=:id";
 	private static String select_all = "select p from BrandPojo p";
+	//TODO constant names capital like SELECT_ID
+	//TODO private static final String
+
 
 	public void insert(BrandPojo p) {
 		em.persist(p);

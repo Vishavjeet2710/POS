@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+//TODO add Indexes in every pojo
 public class BrandPojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
