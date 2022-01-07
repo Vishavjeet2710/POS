@@ -34,7 +34,6 @@ public class BrandPojo {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-
 	private String category;
 	private String brand;
 }

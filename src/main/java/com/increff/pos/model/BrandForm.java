@@ -1,7 +1,11 @@
 package com.increff.pos.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class BrandForm {
+	@NotBlank(message = "Brand Name can Not be Empty")
 	private String brand;
+	@NotBlank(message = "Category Name can Not be Empty")
 	private String category;
 
 	public String getBrand() {

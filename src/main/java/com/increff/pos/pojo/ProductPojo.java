@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class ProductPojo {
@@ -11,7 +12,9 @@ public class ProductPojo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int brand_category;
+	@NotNull
 	private String barcode;
+	@NotNull
 	private String name;
 	private double mrp;
 	public int getId() {

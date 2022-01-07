@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.model.ProductData;
@@ -27,21 +28,21 @@ public class ProductController {
 	private ProductService service;
 	
 	@ApiOperation(value = "Adds a Product")
-	@RequestMapping(path = "/api/product",method = RequestMethod.PUT)
+	@PostMapping(value = "/api/product")
 	public void add(@RequestBody ProductForm form) {
 		ProductPojo p = convert(form);
 		service.add(p);
 	}
 
 	@ApiOperation(value = "Gets a Product")
-	@RequestMapping(path = "/api/product/{id}",method = RequestMethod.GET)
+	@GetMapping(value = "/api/product/{id}")
 	public ProductData get(@PathVariable int id) throws ApiException {
 		ProductPojo p = service.get(id);
 		return convert(p);
 	}
 	
 	@ApiOperation(value = "Gets all products")
-	@RequestMapping(path="/api/product",method = RequestMethod.GET)
+	@GetMapping(value = "/api/product")
 	public List<ProductData> getAll(){
 		List<ProductData> results = new ArrayList<ProductData>();
 		List<ProductPojo> list = service.getAll();
@@ -52,7 +53,7 @@ public class ProductController {
 	}
 	
 	@ApiOperation(value = "Updates a Product")
-	@RequestMapping(value = "/api/product/{id}",method = RequestMethod.POST)
+	@PutMapping(value = "/api/product/{id}")
 	public void update(@PathVariable int id, @RequestBody ProductForm form) throws ApiException {
 		ProductPojo p = convert(form);
 		service.update(id, p);
