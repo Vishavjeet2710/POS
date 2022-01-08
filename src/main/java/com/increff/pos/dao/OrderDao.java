@@ -16,22 +16,22 @@ public class OrderDao {
 	@PersistenceContext
 	EntityManager em;
 	
-	public static String select_id = "select p from OrderPojo p where id=:id";
-	public static String select_all = "select p from OrderPojo p";
+	public static final String SELECT_ID = "select p from OrderPojo p where id=:id";
+	public static final String SELECT_ALL = "select p from OrderPojo p";
 	
 	public void insert(OrderPojo p) {
 		em.persist(p);
 	}
 	
 	public OrderPojo select(int id) {
-		TypedQuery<OrderPojo> query = getQuery(select_id);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
 		OrderPojo p = query.getSingleResult();
 		return p;
 	}
 	
 	public List<OrderPojo> selectAll(){
-		TypedQuery<OrderPojo> query = getQuery(select_all);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL);
 		List<OrderPojo> results = query.getResultList();
 		return results;
 	}

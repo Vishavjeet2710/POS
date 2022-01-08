@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
+
 public class OrderPojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

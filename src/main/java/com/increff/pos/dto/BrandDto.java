@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.increff.pos.helper.BrandHelper;
+import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandService;
 
 
@@ -25,10 +25,10 @@ public class BrandDto {
 	@Autowired 
 	private BrandService service;
 
-	@Transactional(rollbackOn = BlankException.class)
-	public void add(BrandForm form) throws BlankException {
-		checkEmpty(form);
-		trimSpaces(form);
+	@Transactional(rollbackOn = ApiException.class)
+	public void add(BrandForm form) throws ApiException {
+		BrandHelper.checkEmpty(form);
+		BrandHelper.trimSpaces(form);
 		BrandPojo p = BrandHelper.convert(form);
 		service.add(p);
 		return;
@@ -50,24 +50,10 @@ public class BrandDto {
 	}
 	
 	@Transactional(rollbackOn = Exception.class)
-	public void update(int id,BrandForm form) throws BlankException, ApiException {
-		checkEmpty(form);
-		trimSpaces(form);
+	public void update(int id,BrandForm form) throws  ApiException {
+		BrandHelper.checkEmpty(form);
+		BrandHelper.trimSpaces(form);
 		BrandPojo p = BrandHelper.convert(form);
 		service.update(id,p);
 	}
-	
-	@Transactional(rollbackOn = BlankException.class)
-	private void checkEmpty(BrandForm form) throws BlankException {
-		if(form.getBrand().isBlank() || form.getCategory().isBlank()) {
-			throw new BlankException("Brand and Category can not be empty or null");
-		}
-	}
-	
-	@Transactional
-	private void trimSpaces(BrandForm form) {
-		form.setBrand(form.getBrand().toLowerCase().trim());
-		form.setCategory(form.getCategory().toLowerCase().trim());
-	}
-
 }

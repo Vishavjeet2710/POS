@@ -15,22 +15,22 @@ public class InventoryDao {
 	@PersistenceContext
 	EntityManager em;
 	
-	private static String select_id="select p from InventoryPojo p where id=:id";
-	private static String select_all="select p from InventoryPojo p";
+	private static final String SELECT_ID="select p from InventoryPojo p where id=:id";
+	private static final String SELECT_ALL="select p from InventoryPojo p";
 
 	public void insert(InventoryPojo p) {
 		em.persist(p);
 	}
 	
 	public InventoryPojo select(int id) {
-		TypedQuery<InventoryPojo> query = getQuery(select_id);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
 		InventoryPojo result = query.getSingleResult();
 		return result;
 	}
 	
 	public List<InventoryPojo> selectAll() {
-		TypedQuery<InventoryPojo> query = getQuery(select_all);
+		TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL);
 		List<InventoryPojo> results = query.getResultList();
 		return results;
 	}

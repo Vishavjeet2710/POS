@@ -15,22 +15,22 @@ public class BrandDao {
 	@PersistenceContext
 	EntityManager em;
 
-	private static String select_id = "select p from BrandPojo p where id=:id";
-	private static String select_all = "select p from BrandPojo p";
+	private static final String SELECT_ID = "select p from BrandPojo p where id=:id";
+	private static final String SELECT_ALL = "select p from BrandPojo p";
 
 	public void insert(BrandPojo p) {
 		em.persist(p);
 	}
 
 	public BrandPojo select(int id) {
-		TypedQuery<BrandPojo> query = getQuery(select_id);
+		TypedQuery<BrandPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
 		BrandPojo result = query.getSingleResult();
 		return result;
 	}
 
 	public List<BrandPojo> selectAll() {
-		TypedQuery<BrandPojo> query = getQuery(select_all);
+		TypedQuery<BrandPojo> query = getQuery(SELECT_ALL);
 		List<BrandPojo> results = query.getResultList();
 		return results;
 	}

@@ -1,18 +1,29 @@
 package com.increff.pos.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(indexes = {
+		@Index(name="uniqueBarcodeIndex" ,columnList = "barcode", unique = true)
+},
+uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"barcode"})
+})
 public class ProductPojo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int brand_category;
 	@NotNull
+	@Column(name="barcode" ,unique=true)
 	private String barcode;
 	@NotNull
 	private String name;

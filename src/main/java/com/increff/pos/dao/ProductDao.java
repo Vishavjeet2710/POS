@@ -15,22 +15,22 @@ public class ProductDao {
 	@PersistenceContext
 	EntityManager em;
 
-	private static String select_id = "select p from ProductPojo p where id=:id";
-	private static String select_all = "select p from ProductPojo p";
+	private static final String SELECT_ID = "select p from ProductPojo p where id=:id";
+	private static final String SELECT_ALL = "select p from ProductPojo p";
 
 	public void insert(ProductPojo p) {
 		em.persist(p);
 	}
 
 	public ProductPojo select(int id) {
-		TypedQuery<ProductPojo> query = getQuery(select_id);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
 		ProductPojo result = query.getSingleResult();
 		return result;
 	}
 
 	public List<ProductPojo> selectAll() {
-		TypedQuery<ProductPojo> query = getQuery(select_all);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ALL);
 		List<ProductPojo> results = query.getResultList();
 		return results;
 	}

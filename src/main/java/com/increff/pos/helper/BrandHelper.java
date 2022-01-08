@@ -1,5 +1,6 @@
 package com.increff.pos.helper;
 
+import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -18,5 +19,16 @@ public class BrandHelper {
 		p.setBrand(form.getBrand());
 		p.setCategory(form.getCategory());
 		return p;
+	}
+	
+	public static void checkEmpty(BrandForm form) throws ApiException {
+		if(form.getBrand().isBlank() || form.getCategory().isBlank()) {
+			throw new ApiException("Brand and Category can not be empty or null");
+		}
+	}
+	
+	public static void trimSpaces(BrandForm form) {
+		form.setBrand(form.getBrand().toLowerCase().trim());
+		form.setCategory(form.getCategory().toLowerCase().trim());
 	}
 }

@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.increff.pos.dto.BlankException;
 import com.increff.pos.dto.BrandDto;
+import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
-import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +27,7 @@ public class BrandController {
 	
 	@ApiOperation(value = "Adds a Brand Master")
 	@PostMapping(value = "/api/brand")
-	public void add(@RequestBody BrandForm form) throws BlankException {
+	public void add(@RequestBody BrandForm form) throws ApiException {
 		dto.add(form);
 	}
 
@@ -46,7 +45,7 @@ public class BrandController {
 
 	@ApiOperation(value = "Updates a Brand Master")
 	@PutMapping(value = "/api/brand/{id}")
-	public void Update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException, BlankException {
+	public void Update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
 		dto.update(id, form);
 	}
 }

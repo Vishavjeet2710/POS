@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.pos.dao.OrderDao;
+import com.increff.pos.model.ApiException;
 import com.increff.pos.pojo.OrderPojo;
 
 @Service

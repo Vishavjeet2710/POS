@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.increff.pos.model.ApiException;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
 
 import io.swagger.annotations.Api;
