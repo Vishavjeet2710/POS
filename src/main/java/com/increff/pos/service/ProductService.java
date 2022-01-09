@@ -19,13 +19,25 @@ public class ProductService {
 	
 	@Transactional
 	public void add(ProductPojo p) {
-		normalize(p);
 		dao.insert(p);
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
+	public void addCheck(ProductPojo p) throws ApiException {
+		ProductPojo ex = dao.select(p.getId());
+		if(ex!=null) {
+			throw new ApiException("Object with the given ID already exists, ID"+p.getId());	
+		}
+		ex = dao.selectByBarcode(p.getBarcode());
+		if(ex!=null) {
+			throw new ApiException("Object with the given barcode already exists, ID"+p.getBarcode());	
+		}
+		add(p);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
 	public ProductPojo get(int id) throws ApiException {
-		return getCheck(id);
+		return dao.select(id);
 	}
 
 	@Transactional
@@ -44,16 +56,11 @@ public class ProductService {
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	private ProductPojo getCheck(int id) throws ApiException {
-		ProductPojo p = dao.select(id);
+	public ProductPojo getCheck(int id) throws ApiException {
+		ProductPojo p = get(id);
 		if(p==null) {
 			throw new ApiException("Product with given Id does not exist, ID: "+id);
 		}
 		return p;
-	}
-
-	private void normalize(ProductPojo p) {
-		p.setBarcode(p.getBarcode().toLowerCase().trim());
-		p.setName(p.getName().toLowerCase().trim());
 	}
 }

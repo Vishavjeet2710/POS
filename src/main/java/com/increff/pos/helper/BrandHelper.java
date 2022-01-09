@@ -22,7 +22,7 @@ public class BrandHelper {
 	}
 	
 	public static void checkEmpty(BrandForm form) throws ApiException {
-		if(form.getBrand().isBlank() || form.getCategory().isBlank()) {
+		if(form.getBrand().isEmpty() || form.getCategory().isEmpty()) {
 			throw new ApiException("Brand and Category can not be empty or null");
 		}
 	}

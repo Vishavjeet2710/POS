@@ -3,6 +3,7 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -16,6 +17,7 @@ public class ProductDao {
 	EntityManager em;
 
 	private static final String SELECT_ID = "select p from ProductPojo p where id=:id";
+	private static final String SELECT_BARCODE = "select p from ProductPojo p where barcode=:barcode";
 	private static final String SELECT_ALL = "select p from ProductPojo p";
 
 	public void insert(ProductPojo p) {
@@ -25,7 +27,24 @@ public class ProductDao {
 	public ProductPojo select(int id) {
 		TypedQuery<ProductPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
-		ProductPojo result = query.getSingleResult();
+		ProductPojo result = null;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException e) {
+			// No need to handle exception here
+		}
+		return result;
+	}
+	
+	public ProductPojo selectByBarcode(String barcode) {
+		TypedQuery<ProductPojo> query = getQuery(SELECT_BARCODE);
+		query.setParameter("barcode", barcode);
+		ProductPojo result = null;
+		try {
+			result = query.getSingleResult();
+		} catch (Exception e) {
+			// No need to handle exception here
+		}
 		return result;
 	}
 

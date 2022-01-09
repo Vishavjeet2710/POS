@@ -23,8 +23,17 @@ public class InventoryService {
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
+	public void addCheck(InventoryPojo p) throws ApiException {
+		InventoryPojo ex = dao.select(p.getId());
+		if(ex!=null) {
+			throw new ApiException("Inventory with given id already exists, ID"+p.getId());	
+		}
+		add(p);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
 	public InventoryPojo get(int id) throws ApiException {
-		return getCheck(id);
+		return dao.select(id);
 	}
 
 	@Transactional
@@ -40,8 +49,8 @@ public class InventoryService {
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	private InventoryPojo getCheck(int id) throws ApiException {
-		InventoryPojo p = dao.select(id);
+	public InventoryPojo getCheck(int id) throws ApiException {
+		InventoryPojo p = get(id);
 		if(p==null) {
 			throw new ApiException("Product with given id does not exist and so ");
 		}

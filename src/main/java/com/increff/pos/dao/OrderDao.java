@@ -3,6 +3,7 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -26,7 +27,12 @@ public class OrderDao {
 	public OrderPojo select(int id) {
 		TypedQuery<OrderPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
-		OrderPojo p = query.getSingleResult();
+		OrderPojo p = null;
+		try {
+			p = query.getSingleResult();
+		} catch (NoResultException e) {
+			// No Need to handle Exception here
+		}
 		return p;
 	}
 	

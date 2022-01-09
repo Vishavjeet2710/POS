@@ -22,8 +22,17 @@ public class OrderService {
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
+	public void addCheck(OrderPojo p) throws ApiException {
+		OrderPojo ex = dao.select(p.getId());
+		if(ex!=null) {
+			throw new ApiException("Order with given ID already exists, ID"+p.getId());		
+		}
+		add(p);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
 	public OrderPojo get(int id) throws ApiException {
-		return getCheck(id);
+		return dao.select(id);
 	}
 	
 	@Transactional
@@ -39,8 +48,8 @@ public class OrderService {
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
-	private OrderPojo getCheck(int id) throws ApiException {
-		OrderPojo p = dao.select(id);
+	public OrderPojo getCheck(int id) throws ApiException {
+		OrderPojo p = get(id);
 		if(p==null) {
 			throw new ApiException("Order with the given ID does not exist, ID: "+id);
 		}

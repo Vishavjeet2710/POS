@@ -30,13 +30,13 @@ public class BrandDto {
 		BrandHelper.checkEmpty(form);
 		BrandHelper.trimSpaces(form);
 		BrandPojo p = BrandHelper.convert(form);
-		service.add(p);
+		service.addCheck(p);
 		return;
 	}
 
 	@Transactional
 	public BrandData get(int id) throws ApiException {
-		return BrandHelper.convert(service.get(id));
+		return BrandHelper.convert(service.getCheck(id));
 	}
 	
 	@Transactional

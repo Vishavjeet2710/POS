@@ -11,44 +11,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.increff.pos.dto.OrderDto;
+import com.increff.pos.dto.OrderItemDto;
 import com.increff.pos.model.ApiException;
-import com.increff.pos.model.OrderData;
-import com.increff.pos.model.OrderFormPost;
-import com.increff.pos.model.OrderFormUpdate;
+import com.increff.pos.model.OrderItemData;
+import com.increff.pos.model.OrderItemForm;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Api
-@RequestMapping(value = "/api/order")
+@RequestMapping(value = "/api/orderitem")
 @RestController(value = "")
-public class OrderController {
-	
+public class OrderItemController {
 	@Autowired
-	private OrderDto dto;
+	private OrderItemDto dto;
 	
-	@ApiOperation(value = "Add an Order")
+	@ApiOperation(value = "Add OrderItem")
 	@PostMapping(value = "")
-	public void add(@RequestBody OrderFormPost form) throws ApiException {
+	public void add(@RequestBody OrderItemForm form) throws ApiException {
 		dto.add(form);
 	}
-
-	@ApiOperation(value = "Get an Order")
+	
+	@ApiOperation(value = "Get OrderItem")
 	@GetMapping(value = "/{id}")
-	public OrderData get(@PathVariable int id) throws ApiException {
+	public OrderItemData get(@PathVariable int id) throws ApiException {
 		return dto.get(id);
 	}
 	
-	@ApiOperation(value = "Get all orders")
-	@GetMapping(value = "")
-	public List<OrderData> getAll(){
+	@ApiOperation(value = "Get All OrderItems")
+	@GetMapping
+	public List<OrderItemData> getAll(){
 		return dto.getAll();
 	}
-
-	@ApiOperation(value = "Update order")
+	
+	@ApiOperation(value = "Update OrderItem")
 	@PutMapping(value = "/{id}")
-	public void update(@PathVariable int id,@RequestBody OrderFormUpdate form) throws ApiException {
+	public void update(@PathVariable int id,@RequestBody OrderItemForm form) throws ApiException {
 		dto.update(id, form);
 	}
 }

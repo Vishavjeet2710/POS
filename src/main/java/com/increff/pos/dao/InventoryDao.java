@@ -3,6 +3,7 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -25,7 +26,12 @@ public class InventoryDao {
 	public InventoryPojo select(int id) {
 		TypedQuery<InventoryPojo> query = getQuery(SELECT_ID);
 		query.setParameter("id", id);
-		InventoryPojo result = query.getSingleResult();
+		InventoryPojo result = null;
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException e) {
+			// No need to handle exception here
+		}
 		return result;
 	}
 	

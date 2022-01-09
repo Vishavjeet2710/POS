@@ -1,6 +1,6 @@
 package com.increff.pos.model;
 
-public class OrderData extends OrderForm {
+public class OrderData extends OrderFormUpdate {
 	private int id;
 
 	public int getId() {

@@ -19,13 +19,25 @@ public class BrandService {
 
 	@Transactional
 	public void add(BrandPojo p) {
-		normalize(p);
 		dao.insert(p);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
+	public void addCheck(BrandPojo p) throws ApiException {
+		BrandPojo ex = dao.select(p.getId());
+		if(ex!=null) {
+			throw new ApiException("Brand with given id already exists, ID"+ p.getId());
+		}
+		ex = dao.selectByCategoryBrand(p.getCategory(), p.getBrand());
+		if(ex!=null) {
+			throw new ApiException("Brand with given brand and category already exists, brand"+ p.getBrand()+ " and category "+ p.getCategory());
+		}
+		add(p);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandPojo get(int id) throws ApiException {
-		return getCheck(id);
+		return dao.select(id);
 	}
 
 	@Transactional
@@ -35,7 +47,6 @@ public class BrandService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, BrandPojo p) throws ApiException {
-		normalize(p);
 		BrandPojo p_ex = getCheck(id);
 		p_ex.setCategory(p.getCategory());
 		p_ex.setBrand(p.getBrand());
@@ -43,17 +54,11 @@ public class BrandService {
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
-	private BrandPojo getCheck(int id) throws ApiException {
-		BrandPojo p = dao.select(id);
+	public BrandPojo getCheck(int id) throws ApiException {
+		BrandPojo p = get(id);
 		if (p == null) {
 			throw new ApiException("Given id does not exist, ID: " + id);
 		}
 		return p;
-	}
-
-	@Transactional
-	private static void normalize(BrandPojo p) {
-		p.setBrand(p.getBrand().toLowerCase());
-		p.setCategory(p.getCategory().toLowerCase());
 	}
 }

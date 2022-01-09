@@ -26,18 +26,18 @@ public class ProductDto {
 	@Autowired
 	private BrandService brandService;
 	
-	@Transactional(rollbackOn = Exception.class)
+	@Transactional(rollbackOn = ApiException.class)
 	public void add(ProductForm form) throws  ApiException {
 		ProductHelper.checkEmpty(form);
 		ProductHelper.trimSpaces(form);
 		ProductHelper.checkNegativeMrp(form);
-		brandService.get(form.getBrand_category());
-		service.add(ProductHelper.convert(form));
+		brandService.getCheck(form.getBrand_category());
+		service.addCheck(ProductHelper.convert(form));
 	}
 	
-	@Transactional
+	@Transactional(rollbackOn = ApiException.class)
 	public ProductData get(int id) throws ApiException {
-		return ProductHelper.convert(service.get(id));
+		return ProductHelper.convert(service.getCheck(id));
 	}
 	
 	@Transactional
@@ -50,11 +50,12 @@ public class ProductDto {
 		return results;
 	}
 	
-	@Transactional
+	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,ProductForm form) throws  ApiException {
 		ProductHelper.checkEmpty(form);
 		ProductHelper.trimSpaces(form);
 		ProductHelper.checkNegativeMrp(form);
-		brandService.get(form.getBrand_category());
+		brandService.getCheck(form.getBrand_category());
+		service.update(id, ProductHelper.convert(form));
 	}
 }

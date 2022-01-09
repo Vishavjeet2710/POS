@@ -1,6 +1,6 @@
 package com.increff.pos.model;
 
-public class OrderForm {
+public class OrderFormUpdate {
 	private String time;
 
 	public String getTime() {
