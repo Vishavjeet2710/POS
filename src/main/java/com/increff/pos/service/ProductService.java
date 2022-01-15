@@ -41,18 +41,35 @@ public class ProductService {
 	}
 
 	@Transactional
+	public ProductPojo getByBarcode(String barcode) {
+		return dao.selectByBarcode(barcode);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
+	public ProductPojo getCheckByBarcode(String barcode) throws ApiException {
+		ProductPojo ex = getByBarcode(barcode);
+		if(ex==null) {
+			throw new ApiException("Product with given barcode does not exists");
+		}
+		return ex;
+	}
+	
+	@Transactional
 	public List<ProductPojo> getAll(){
 		return dao.selectAll();
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void update(int id,ProductPojo p) throws ApiException {
-		ProductPojo ex = getCheck(id);
+	public void update(ProductPojo p) throws ApiException {
+		ProductPojo ex = dao.selectByBarcode(p.getBarcode());
+		if(ex==null) {
+			throw new ApiException("Product with given barcode does not exist");
+		}
 		ex.setBarcode(p.getBarcode());
 		ex.setBrand_category(p.getBrand_category());
 		ex.setName(p.getName());
 		ex.setMrp(p.getMrp());
-		dao.update(id, p);
+		dao.update(ex.getId(), p);
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)

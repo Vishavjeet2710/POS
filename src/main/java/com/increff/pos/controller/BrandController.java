@@ -15,6 +15,7 @@ import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.UpdateBrandForm;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,8 +47,8 @@ public class BrandController {
 	}
 
 	@ApiOperation(value = "Update a Brand Master")
-	@PutMapping(value = "/{id}")
-	public void Update(@PathVariable int id, @RequestBody BrandForm form) throws ApiException {
-		dto.update(id, form);
+	@PutMapping(value = "/update")
+	public void Update(@RequestBody UpdateBrandForm form) throws ApiException {
+		dto.update(form);
 	}
 }

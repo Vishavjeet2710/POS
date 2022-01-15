@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import com.increff.pos.helper.ProductHelper;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.service.BrandService;
@@ -31,31 +32,47 @@ public class ProductDto {
 		ProductHelper.checkEmpty(form);
 		ProductHelper.trimSpaces(form);
 		ProductHelper.checkNegativeMrp(form);
-		brandService.getCheck(form.getBrand_category());
-		service.addCheck(ProductHelper.convert(form));
+		BrandPojo brandPojo =  brandService.getCheckByBrandCategory(form.getBrand(),form.getCategory());
+		ProductPojo p = ProductHelper.convert(form);
+		p.setBrand_category(brandPojo.getId());
+		service.addCheck(p);
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public ProductData get(int id) throws ApiException {
-		return ProductHelper.convert(service.getCheck(id));
+		ProductPojo p = service.getCheck(id);
+		ProductData data = ProductHelper.convert(p);
+		BrandPojo brandPojo =  brandService.get(p.getBrand_category());
+		data.setBrand(brandPojo.getBrand());
+		data.setCategory(brandPojo.getCategory());
+		return data;
 	}
 	
 	@Transactional
 	public List<ProductData> getAll(){
+		
+		System.out.println("I was  here");
 		List<ProductData> results = new ArrayList<ProductData>();
 		List<ProductPojo> list= service.getAll();
 		for(ProductPojo p : list) {
-			results.add(ProductHelper.convert(p));
+			ProductData data = ProductHelper.convert(p);
+			BrandPojo brandPojo =  brandService.get(p.getBrand_category());
+			data.setBrand(brandPojo.getBrand());
+			data.setCategory(brandPojo.getCategory());
+			System.out.println("Barcode "+data.getBarcode()+" Brand "+ data.getBrand()+" Category "+data.getCategory() +" Name "+data.getName()+" Mrp "+data.getMrp() );
+			results.add(data);
 		}
 		return results;
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void update(int id,ProductForm form) throws  ApiException {
+	public void update(ProductForm form) throws  ApiException {
 		ProductHelper.checkEmpty(form);
 		ProductHelper.trimSpaces(form);
 		ProductHelper.checkNegativeMrp(form);
-		brandService.getCheck(form.getBrand_category());
-		service.update(id, ProductHelper.convert(form));
+		BrandPojo brandPojo = brandService.getCheckByBrandCategory(form.getBrand(),form.getCategory());
+		ProductPojo p = ProductHelper.convert(form);
+		p.setBrand_category(brandPojo.getId());
+		service.update(p);
 	}
 }

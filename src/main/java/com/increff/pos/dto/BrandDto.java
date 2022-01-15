@@ -14,6 +14,7 @@ import com.increff.pos.helper.BrandHelper;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.UpdateBrandForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.BrandService;
 
@@ -50,10 +51,9 @@ public class BrandDto {
 	}
 	
 	@Transactional(rollbackOn = Exception.class)
-	public void update(int id,BrandForm form) throws  ApiException {
-		BrandHelper.checkEmpty(form);
-		BrandHelper.trimSpaces(form);
-		BrandPojo p = BrandHelper.convert(form);
-		service.update(id,p);
+	public void update(UpdateBrandForm form) throws  ApiException {
+		BrandPojo p = BrandHelper.convertUpdateCurr(form);
+		BrandPojo p_ex = BrandHelper.convertUpdateEx(form);
+		service.update(p_ex,p);
 	}
 }

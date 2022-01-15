@@ -3,7 +3,8 @@ package com.increff.pos.model;
 public class ProductForm {
 	private String name;
 	private String barcode;
-	private int brand_category;
+	private String category;
+	private String brand;
 	private double mrp;
 
 	public String getName() {
@@ -22,12 +23,20 @@ public class ProductForm {
 		this.barcode = barcode;
 	}
 
-	public int getBrand_category() {
-		return brand_category;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setBrand_category(int brand_category) {
-		this.brand_category = brand_category;
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 	public double getMrp() {
@@ -37,4 +46,5 @@ public class ProductForm {
 	public void setMrp(double mrp) {
 		this.mrp = mrp;
 	}
+
 }

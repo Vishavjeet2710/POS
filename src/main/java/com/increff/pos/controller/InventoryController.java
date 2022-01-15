@@ -41,13 +41,13 @@ public class InventoryController {
 	
 	@ApiOperation(value = "Get Inventory of each product")
 	@GetMapping(value = "")
-	public List<InventoryData> getAll(){
+	public List<InventoryData> getAll() throws ApiException{
 		return dto.getAll();
 	}
 	
 	@ApiOperation(value = "Update an Inventory")
-	@PutMapping(value = "/{id}")
-	public void update(@PathVariable int id,@RequestBody InventoryForm form) throws ApiException {
-		dto.update(id, form);
+	@PutMapping(value = "/update")
+	public void update(@RequestBody InventoryForm form) throws ApiException {
+		dto.update(form);
 	}
 }

@@ -24,33 +24,44 @@ public class BrandService {
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public void addCheck(BrandPojo p) throws ApiException {
-		BrandPojo ex = dao.select(p.getId());
-		if(ex!=null) {
-			throw new ApiException("Brand with given id already exists, ID"+ p.getId());
-		}
-		ex = dao.selectByCategoryBrand(p.getCategory(), p.getBrand());
+		//ID updates only when it inserts into db
+		BrandPojo ex = dao.selectByCategoryBrand(p.getCategory(), p.getBrand());
 		if(ex!=null) {
 			throw new ApiException("Brand with given brand and category already exists, brand"+ p.getBrand()+ " and category "+ p.getCategory());
 		}
 		add(p);
 	}
 
-	@Transactional(rollbackOn = ApiException.class)
-	public BrandPojo get(int id) throws ApiException {
+	@Transactional
+	public BrandPojo get(int id) {
 		return dao.select(id);
 	}
-
+	
+	@Transactional
+	public BrandPojo getByBrandCategory (String brand, String category) {
+		return dao.selectByCategoryBrand(category, brand);
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
+	public BrandPojo getCheckByBrandCategory(String brand,String category) throws ApiException {
+		BrandPojo p = getByBrandCategory(brand, category);
+		if(p==null) {
+			throw new ApiException("Brand with given category and brand name already exists");
+		}
+		return p;
+	}
+		
 	@Transactional
 	public List<BrandPojo> getAll() {
 		return dao.selectAll();
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
-	public void update(int id, BrandPojo p) throws ApiException {
-		BrandPojo p_ex = getCheck(id);
-		p_ex.setCategory(p.getCategory());
-		p_ex.setBrand(p.getBrand());
-		dao.update(id, p);
+	public void update(BrandPojo p_ex, BrandPojo p) throws ApiException {
+		BrandPojo ex = getCheckByBrandCategory(p_ex.getBrand(),p_ex.getCategory());
+		ex.setCategory(p.getCategory());
+		ex.setBrand(p.getBrand());
+		dao.update(ex.getId(), p);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)

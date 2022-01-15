@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!-- Font Awesome-->
+        <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+        <title>pos</title>
+      </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Order</li>
+        </ol>
+      </nav>
+    &nbsp;
+    <div class="container">
+        <h4>Order Master</h4>
+        <form id="orderForm">
+            <div class="form-row">
+                <div class="col-5">
+                    <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary mb-2" class="col-2" id="addOrder">Add</button>
+                </div>
+            </div>
+        </form>
+    
+        <table class="table" id="orderTable">
+            <caption>List of Orders</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" name="id">#</th>
+                    <th scope="col" name="barcode">Barcode</th>
+                    <th scope="col" name="quantity">Quantity</th>
+                    <th scope="col" name="mrp">Mrp</th>
+                    <th scope="col" class="d-flex justify-content-end" name="action">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>30.00</td>
+                    <td class="d-flex justify-content-end"> Edit | Delete </td>
+                </tr>
+            </tbody>
+          </table>
+    </div>
+
+    
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../static/papaparse.min.js"></script>
+    <script src="../static/app.js"></script>
+    <script src="../static/order.js"></script>
+</body>
+</html>

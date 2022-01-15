@@ -16,7 +16,6 @@ public class InventoryHelper {
 	public static InventoryPojo convert(InventoryForm form) {
 		InventoryPojo p = new InventoryPojo();
 		p.setQuantity(form.getQuantity());
-		p.setId(form.getId());
 		return p;
 	}
 	

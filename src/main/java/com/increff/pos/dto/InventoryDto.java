@@ -14,6 +14,7 @@ import com.increff.pos.model.ApiException;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 
@@ -30,29 +31,40 @@ public class InventoryDto {
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(InventoryForm form) throws ApiException {
 		InventoryHelper.checkNegative(form);
-		productService.getCheck(form.getId());
-		service.addCheck(InventoryHelper.convert(form));
+		ProductPojo productPojo =	productService.getCheckByBarcode(form.getBarcode());
+		InventoryPojo p = InventoryHelper.convert(form);
+		p.setId(productPojo.getId());
+		service.addCheck(p);
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public InventoryData get(int id) throws ApiException {
-		return InventoryHelper.convert(service.getCheck(id));
+		InventoryPojo p = service.getCheck(id);
+		ProductPojo productPojo =	productService.getCheck(p.getId());
+		InventoryData data = InventoryHelper.convert(p);
+		data.setBarcode(productPojo.getBarcode());
+		return data;
 	}
 	
-	@Transactional
-	public List<InventoryData> getAll(){
+	@Transactional(rollbackOn = ApiException.class)
+	public List<InventoryData> getAll() throws ApiException{
 		List<InventoryData> results = new ArrayList<InventoryData>();
 		List<InventoryPojo> list = service.getAll();
 		for(InventoryPojo p : list) {
-			results.add(InventoryHelper.convert(p));
+			ProductPojo productPojo =	productService.getCheck(p.getId());
+			InventoryData data = InventoryHelper.convert(p);
+			data.setBarcode(productPojo.getBarcode());
+			results.add(data);
 		}
 		return results;
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void update(int id,InventoryForm form) throws ApiException {
+	public void update(InventoryForm form) throws ApiException {
 		InventoryHelper.checkNegative(form);
-		productService.getCheck(form.getId());
-		service.update(id, InventoryHelper.convert(form));
+		ProductPojo productPojo =	productService.getCheckByBarcode(form.getBarcode());
+		InventoryPojo p = InventoryHelper.convert(form);
+		p.setId(productPojo.getId());
+		service.update(productPojo.getId(), InventoryHelper.convert(form));
 	}
 }
