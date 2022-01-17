@@ -17,17 +17,18 @@ public class OrderService {
 	OrderDao dao;
 	
 	@Transactional
-	public void add(OrderPojo p) {
+	public int add(OrderPojo p) {
 		dao.insert(p);
+		return p.getId();
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void addCheck(OrderPojo p) throws ApiException {
+	public int addCheck(OrderPojo p) throws ApiException {
 		OrderPojo ex = dao.select(p.getId());
 		if(ex!=null) {
 			throw new ApiException("Order with given ID already exists, ID"+p.getId());		
 		}
-		add(p);
+		return add(p);
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)

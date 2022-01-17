@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value = "seesion", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class InfoData implements Serializable {
 
 	private static final long serialVersionUID = 1L;

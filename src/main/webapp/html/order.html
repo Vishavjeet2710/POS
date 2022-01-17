@@ -42,42 +42,199 @@
       </nav>
     &nbsp;
     <div class="container">
-        <h4>Order Master</h4>
-        <form id="orderForm">
-            <div class="form-row">
-                <div class="col-5">
-                    <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
-                </div>
-                <div class="col-5">
-                    <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-2" class="col-2" id="addOrder">Add</button>
-                </div>
-            </div>
+        <form id="addOrder">
+        <div class="row">
+          <h4 class="col">Order Master</h4>
+          <button type="button" class="btn btn-primary mb-2 col-3 float-right" class="col-2" data-toggle="modal" data-target="#createOrderModal" id="createOrder">
+            Create Order
+          </button>
+        </div>
         </form>
-    
-        <table class="table" id="orderTable">
-            <caption>List of Orders</caption>
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col" name="id">#</th>
-                    <th scope="col" name="barcode">Barcode</th>
-                    <th scope="col" name="quantity">Quantity</th>
-                    <th scope="col" name="mrp">Mrp</th>
-                    <th scope="col" class="d-flex justify-content-end" name="action">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>30.00</td>
-                    <td class="d-flex justify-content-end"> Edit | Delete </td>
-                </tr>
-            </tbody>
-          </table>
+
+        <table class="table table-bordered">
+          <caption>List of Orders</caption>
+          <thead >
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4">
+                <table class="table" id="orderTable">
+                  <caption>Order:&nbsp;1</caption>
+                  <thead class="table-dark">
+                      <tr>
+                          <th scope="col" name="id">#</th>
+                          <th scope="col" name="barcode">Barcode</th>
+                          <th scope="col" name="quantity">Quantity</th>
+                          <th scope="col" name="mrp">Mrp</th>
+                          <th scope="col" class="d-flex justify-content-end" name="action">Download</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>30.00</td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>30.00</td>
+                        <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+      
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <table class="table" id="orderTable">
+                  <caption>Order:&nbsp;2</caption>
+                  <thead class="table-dark">
+                      <tr>
+                          <th scope="col" name="id">#</th>
+                          <th scope="col" name="barcode">Barcode</th>
+                          <th scope="col" name="quantity">Quantity</th>
+                          <th scope="col" name="mrp">Mrp</th>
+                          <th scope="col" class="d-flex justify-content-end" name="action">Download</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>30.00</td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>30.00</td>
+                        <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+      
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+          <!--Create Object -->
+        <div class="modal fade" id="createOrderModal" tabindex="-1" role="dialog" aria-labelledby="createOrderModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="createOrderModalLabel">Orders-Items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              &nbsp;
+              <div class="modal-body">
+                <form id="orderItemForm">
+                  <div class="form-row">
+                      <div class="col-5">
+                          <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
+                      </div>
+                      <div class="col-5">
+                          <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
+                      </div>
+                      <div class="col">
+                          <button type="submit" class="btn btn-primary mb-2" class="col-2" id="addOrder">Add</button>
+                      </div>
+                  </div>
+                </form>
+                &nbsp;
+                <table class="table" id="orderTableAdd">
+                  <caption>Order:&nbsp;2</caption>
+                  <thead class="table-dark">
+                      <tr>
+                          <th scope="col" name="id">#</th>
+                          <th scope="col" name="barcode">Barcode</th>
+                          <th scope="col" name="quantity">Quantity</th>
+                          <th scope="col" name="mrp">Mrp</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>30.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>30.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+                &nbsp;
+                <div class="panel-group" id="accordion">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Update Order Item</a></h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <form id="orderItemUpdateForm">
+                          <div class="form-row">
+                            <div>
+                              <h5>&nbsp;Enter the barcode and updated quantity</h5>
+                            </div>
+                          </div>
+                          &nbsp;
+                          <div class="form-row">
+                              <div class="col-5">
+                                  <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
+                              </div>
+                              <div class="col-5">
+                                  <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
+                              </div>
+                              <div class="col-2">
+                                <button type="submit" class="btn btn-primary mb-2" class="col-2" id="updateOrderItem">Update</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title"><a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Upload Order Items</a></h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile" id="customFileName">Choose file</label>
+                        </div>
+                          <a href="../static/orderItem.tsv" target="_blank">Download Sample</a> 
+                          <br>
+                          Rows: <span id="rowCount">0</span>, 
+                          Processed: <span id="processCount">0</span>, 
+                          Errors: <span id="errorCount">0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="createOrderList">Create Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     

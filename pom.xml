@@ -53,7 +53,7 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<!-- Securities -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
@@ -170,6 +170,14 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
+		</dependency>
+
+		<!-- FOP -->
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/fop -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.6</version>
 		</dependency>
 
 

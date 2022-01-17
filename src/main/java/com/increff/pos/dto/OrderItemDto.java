@@ -66,6 +66,16 @@ public class OrderItemDto {
 		return results;
 	}
 	
+	@Transactional
+	public List<OrderItemData> getByOrderId(int orderId){
+		List<OrderItemData> results = new ArrayList<OrderItemData>();
+		List<OrderItemPojo> list = service.getByOrderId(orderId);
+		for(OrderItemPojo p : list) {
+			results.add(OrderItemHelper.convert(p));
+		}
+		return results;
+	}
+	
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,OrderItemForm form) throws ApiException {
 		

@@ -3,7 +3,6 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.ProductPojo;
 
 @Repository
-public class ProductDao {
+public class ProductDao extends AbstractDao{
 	@PersistenceContext
 	EntityManager em;
 
@@ -25,40 +24,24 @@ public class ProductDao {
 	}
 
 	public ProductPojo select(int id) {
-		TypedQuery<ProductPojo> query = getQuery(SELECT_ID);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ID,ProductPojo.class);
 		query.setParameter("id", id);
-		ProductPojo result = null;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException e) {
-			// No need to handle exception here
-		}
-		return result;
+		return getSingle(query);
 	}
 	
 	public ProductPojo selectByBarcode(String barcode) {
-		TypedQuery<ProductPojo> query = getQuery(SELECT_BARCODE);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_BARCODE,ProductPojo.class);
 		query.setParameter("barcode", barcode);
-		ProductPojo result = null;
-		try {
-			result = query.getSingleResult();
-		} catch (Exception e) {
-			// No need to handle exception here
-		}
-		return result;
+		return getSingle(query);
 	}
 
 	public List<ProductPojo> selectAll() {
-		TypedQuery<ProductPojo> query = getQuery(SELECT_ALL);
+		TypedQuery<ProductPojo> query = getQuery(SELECT_ALL,ProductPojo.class);
 		List<ProductPojo> results = query.getResultList();
 		return results;
 	}
 
 	public void update(int id, ProductPojo p) {
 		return;
-	}
-
-	private TypedQuery<ProductPojo> getQuery(String q) {
-		return em.createQuery(q, ProductPojo.class);
 	}
 }

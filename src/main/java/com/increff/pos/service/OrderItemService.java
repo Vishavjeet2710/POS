@@ -50,6 +50,11 @@ public class OrderItemService {
 		return dao.selectAll();
 	}
 	
+	@Transactional
+	public List<OrderItemPojo> getByOrderId(int orderId){
+		return dao.selectByOrderId(orderId);
+	}
+	
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,OrderItemPojo p) throws ApiException {
 		OrderItemPojo ex = getCheck(id);

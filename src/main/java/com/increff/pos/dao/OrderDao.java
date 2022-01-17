@@ -3,7 +3,6 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.OrderPojo;
 
 @Repository
-public class OrderDao {
+public class OrderDao extends AbstractDao{
 	
 	@PersistenceContext
 	EntityManager em;
@@ -25,19 +24,13 @@ public class OrderDao {
 	}
 	
 	public OrderPojo select(int id) {
-		TypedQuery<OrderPojo> query = getQuery(SELECT_ID);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ID,OrderPojo.class);
 		query.setParameter("id", id);
-		OrderPojo p = null;
-		try {
-			p = query.getSingleResult();
-		} catch (NoResultException e) {
-			// No Need to handle Exception here
-		}
-		return p;
+		return getSingle(query);
 	}
 	
 	public List<OrderPojo> selectAll(){
-		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL);
+		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL,OrderPojo.class);
 		List<OrderPojo> results = query.getResultList();
 		return results;
 	}
@@ -45,8 +38,4 @@ public class OrderDao {
 	public void update(int id,OrderPojo p) {
 		return;
 	}
-	
-	private TypedQuery<OrderPojo> getQuery(String q) {
-		return em.createQuery(q,OrderPojo.class);
-	}	
 }

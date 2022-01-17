@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<brandXmlRootElement>
+    <brandDatas>
+        <brand>amul</brand>
+        <category>milk</category>
+        <id>1</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>amul</brand>
+        <category>dairy</category>
+        <id>2</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>mcd</brand>
+        <category>food</category>
+        <id>3</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>abc</brand>
+        <category>food</category>
+        <id>4</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>starbucks</brand>
+        <category>drinks</category>
+        <id>5</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>dominos</brand>
+        <category>food</category>
+        <id>6</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>subway</brand>
+        <category>food</category>
+        <id>7</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>nike</brand>
+        <category>shoes</category>
+        <id>8</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>brand one</brand>
+        <category>category one</category>
+        <id>9</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>brand two</brand>
+        <category>category two</category>
+        <id>10</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>brand three</brand>
+        <category>category three</category>
+        <id>11</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>brand four</brand>
+        <category>category four</category>
+        <id>12</id>
+    </brandDatas>
+</brandXmlRootElement>

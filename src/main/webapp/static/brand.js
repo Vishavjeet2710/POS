@@ -146,12 +146,41 @@ function displayBrandList(list){
     }
 }
 
+// Download function
+
+function downloadList(){
+    console.log("Downloading");
+
+    url='../api/brand/download';
+    $.ajax(
+    {
+    dataType: 'native',
+    url: url,
+    xhrFields:
+    {
+        responseType: 'blob'
+    },
+    success: function(blob)
+    {
+        var filename = "brandList.pdf";
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "brandList.pdf";
+        link.click();
+        var file = new File([blob], filename, { type: 'application/force-download' });
+        window.open(URL.createObjectURL(file));
+    }
+    });
+}
+
+
 function init(){
     console.log("initialized");
     $('#addBrand').click(addBrand);
     $('#updateBrand').click(updateBrand);
     $('#uploadBrandButton').click(displayUploadData);
     $('#processBrand').click(processBrand);
+    $('#downloadButton').click(downloadList);
     $('#brandFile').on('change', updateFileName);
 }
 

@@ -3,7 +3,6 @@ package com.increff.pos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.increff.pos.pojo.BrandPojo;
 
 @Repository
-public class BrandDao {
+public class BrandDao extends AbstractDao{
 	@PersistenceContext
 	EntityManager em;
 
@@ -25,40 +24,24 @@ public class BrandDao {
 	}
 
 	public BrandPojo select(int id) {
-		TypedQuery<BrandPojo> query = getQuery(SELECT_ID);
+		TypedQuery<BrandPojo> query = getQuery(SELECT_ID,BrandPojo.class);
 		query.setParameter("id", id);
-		BrandPojo result = null;
-		try {
-			result = query.getSingleResult();
-		} catch (NoResultException e) {
-			// No need to handle exception here
-		}
-		return result;
+		return getSingle(query);
 	}
 	
 	public BrandPojo selectByCategoryBrand(String category, String brand) {
-		TypedQuery<BrandPojo> query = getQuery(SELECT_CATEGORY_BRAND);
+		TypedQuery<BrandPojo> query = getQuery(SELECT_CATEGORY_BRAND,BrandPojo.class);
 		query.setParameter("category", category);
 		query.setParameter("brand", brand);
-		BrandPojo result = null;
-		try {
-			result = query.getSingleResult();
-		} catch (Exception e) {
-			// No need to handle exception here
-		}
-		return result;
+		return getSingle(query);
 	}
 
 	public List<BrandPojo> selectAll() {
-		TypedQuery<BrandPojo> query = getQuery(SELECT_ALL);
+		TypedQuery<BrandPojo> query = getQuery(SELECT_ALL,BrandPojo.class);
 		List<BrandPojo> results = query.getResultList();
 		return results;
 	}
 
 	public void update(int id, BrandPojo p) {
-	}
-
-	private TypedQuery<BrandPojo> getQuery(String q) {
-		return em.createQuery(q, BrandPojo.class);
 	}
 }

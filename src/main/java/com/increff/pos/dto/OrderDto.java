@@ -25,8 +25,8 @@ public class OrderDto {
 	private OrderService service;
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(OrderFormPost form) throws ApiException {
-		service.addCheck(OrderHelper.convert(form));
+	public int add(OrderFormPost form) throws ApiException {
+		return  service.addCheck(OrderHelper.convert(form));
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)

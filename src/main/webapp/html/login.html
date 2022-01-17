@@ -16,17 +16,41 @@
 <body>
 
     <div class="container">
+
         <div class="row">
-            <div class="col-6">
-                <div class="jumbotron">
-                    <h1 class="display-4">Hello, world!</h1>
-                    <p class="lead">Welcome to Point of Sale Web App</p>
-                    <hr class="my-4">
-                    <a class="btn btn-primary btn-lg" href="../site/login" role="button">Get Started</a>
-                </div>
+        <div class="col-6">
+            
+            <div class="card">
+              <div class="card-header">
+                Login
+              </div>
+              <div class="card-body">
+                <form class="form" id="login-form" method="POST" action="../session/login">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-10 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="email" id="email" placeholder="enter email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-10 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="password" id="password" placeholder="password">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="login">Go</button>
+                </form>
             </div>
-        </div>
-    </div> <!--Container-->
+            
+            </div>
+            
+            
+        
+        </div> <!-- Col -->
+        </div> <!-- Row -->
+        
+        </div> <!-- Container-->
+        
         
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
