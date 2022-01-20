@@ -33,7 +33,6 @@ public class UserService {
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public UserPojo getCheck(int id) throws ApiException {
-		System.out.println("I was here");
 		UserPojo p = get(id);
 		if(p==null) {
 			throw new ApiException("User with given id does not exist");

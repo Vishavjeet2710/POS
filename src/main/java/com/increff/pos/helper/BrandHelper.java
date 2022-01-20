@@ -1,5 +1,8 @@
 package com.increff.pos.helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
@@ -45,5 +48,13 @@ public class BrandHelper {
 		p.setBrand(form.getExBrand());
 		p.setCategory(form.getExCategory());
 		return p;
+	}
+
+	public static List<BrandData> convert(List<BrandPojo> list) {
+		List<BrandData> data = new ArrayList<BrandData>();
+		for(BrandPojo p : list) {
+			data.add(convert(p));
+		}
+		return data;
 	}
 }

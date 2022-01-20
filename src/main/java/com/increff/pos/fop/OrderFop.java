@@ -18,13 +18,12 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
-
-public class BrandFop {
+public class OrderFop {
 	public static ByteArrayOutputStream downloadPDF()  throws IOException, FOPException, TransformerException {
         // the XSL FO file
-        File xsltFile = new File("./template.xsl");
+        File xsltFile = new File("./templateOrder.xsl");
         // the XML file which provides the input
-        StreamSource xmlSource = new StreamSource(new File("./brandList.xml"));
+        StreamSource xmlSource = new StreamSource(new File("./orderList.xml"));
         // create an instance of fop factory
         FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
         
@@ -55,16 +54,16 @@ public class BrandFop {
 	
 	public static void convertToPDF()  throws IOException, FOPException, TransformerException {
         // the XSL FO file
-        File xsltFile = new File("./template.xsl");
+        File xsltFile = new File("./templateOrder.xsl");
         // the XML file which provides the input
-        StreamSource xmlSource = new StreamSource(new File("./brandList.xml"));
+        StreamSource xmlSource = new StreamSource(new File("./orderList.xml"));
         // create an instance of fop factory
         FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
         // a user agent is needed for transformation
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         // Setup output
         OutputStream out;
-        out = new java.io.FileOutputStream("brandList.pdf");
+        out = new java.io.FileOutputStream("orderList.pdf");
     
         try {
             // Construct fop with desired output format

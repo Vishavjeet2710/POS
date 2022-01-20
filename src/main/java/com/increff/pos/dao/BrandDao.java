@@ -2,8 +2,6 @@ package com.increff.pos.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -12,15 +10,13 @@ import com.increff.pos.pojo.BrandPojo;
 
 @Repository
 public class BrandDao extends AbstractDao{
-	@PersistenceContext
-	EntityManager em;
-
+	
 	private static final String SELECT_ID = "select p from BrandPojo p where id=:id";
 	private static final String SELECT_CATEGORY_BRAND = "select p from BrandPojo p where category=:category and brand=:brand";
 	private static final String SELECT_ALL = "select p from BrandPojo p";
 
 	public void insert(BrandPojo p) {
-		em.persist(p);
+		em().persist(p);
 	}
 
 	public BrandPojo select(int id) {

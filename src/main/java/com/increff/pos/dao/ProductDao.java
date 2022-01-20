@@ -2,8 +2,6 @@ package com.increff.pos.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -12,15 +10,13 @@ import com.increff.pos.pojo.ProductPojo;
 
 @Repository
 public class ProductDao extends AbstractDao{
-	@PersistenceContext
-	EntityManager em;
 
 	private static final String SELECT_ID = "select p from ProductPojo p where id=:id";
 	private static final String SELECT_BARCODE = "select p from ProductPojo p where barcode=:barcode";
 	private static final String SELECT_ALL = "select p from ProductPojo p";
 
 	public void insert(ProductPojo p) {
-		em.persist(p);
+		em().persist(p);
 	}
 
 	public ProductPojo select(int id) {

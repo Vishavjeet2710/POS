@@ -1,15 +1,10 @@
 package com.increff.pos.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.TransformerException;
 
-import org.apache.fop.apps.FOPException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.increff.pos.converter.BrandXmlConverter;
+import com.increff.pos.download.BrandDownload;
 import com.increff.pos.dto.BrandDto;
-import com.increff.pos.fop.BrandFop;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
@@ -63,21 +57,11 @@ public class BrandController {
 		dto.update(form);
 	}
 	
-	@ApiOperation(value = "Convert Brand Object to XML")
+	@ApiOperation(value = "Download Brand Object to XML")
 	@GetMapping(value = "/download")
-	public void download(HttpServletRequest request, HttpServletResponse response) throws ServletException, FOPException, IOException, TransformerException {
+	public void download(HttpServletRequest request, HttpServletResponse response) throws ApiException {
 		BrandXmlRootElement brandDatas = new BrandXmlRootElement();
-		brandDatas.setBrandDatas(getAll());
-		BrandXmlConverter.jaxbObjectToXML(brandDatas);
-		ByteArrayOutputStream out = BrandFop.downloadPDF();
-		//Prepare response
-        response.setContentType("application/pdf");
-        response.setContentLength(out.size());
-        
-        System.out.println(out);
-        
-        //Send content to Browser
-        response.getOutputStream().write(out.toByteArray());
-        response.getOutputStream().flush();
+		brandDatas.setBrandDatas(dto.getAll());
+		BrandDownload.BrandDownloadHelper(brandDatas, request, response);
 	}
 }

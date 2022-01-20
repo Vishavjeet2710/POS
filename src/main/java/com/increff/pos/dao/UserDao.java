@@ -2,8 +2,6 @@ package com.increff.pos.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -14,16 +12,13 @@ import com.increff.pos.pojo.UserPojo;
 @Repository
 public class UserDao extends AbstractDao{
 	
-	@PersistenceContext
-	EntityManager em;
-	
 	private static final String SELECT_ID = "select p from UserPojo p where id=:id";
 	private static final String SELECT_EMAIL = "select p from UserPojo p where email=:email";
 	private static final String SELECT_ALL = "select p from UserPojo p";
 	private static final String DELETE_ID = "delete from UserPojo p where id=:id";
 	
 	public void add(UserPojo p) {
-		em.persist(p);
+		em().persist(p);
 	}
 	
 	public UserPojo select(int id) {
@@ -39,7 +34,7 @@ public class UserDao extends AbstractDao{
 	}
 	
 	public int delete(int id) {
-		Query query = em.createQuery(DELETE_ID,UserPojo.class);
+		Query query = em().createQuery(DELETE_ID,UserPojo.class);
 		query.setParameter("id", id);
 		return query.executeUpdate();
 	}

@@ -1,42 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <!-- Font Awesome-->
-        <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
-        <title>pos</title>
-      </head>
+  <head th:replace="snippet.html :: name_head"></head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-          </ul>
-        </div>
-    </nav>
+    <nav th:replace="snippet.html :: name_app_navbar"></nav>
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/ui/home}">Home</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/ui/admin}">Admin</a></li>
           <li class="breadcrumb-item active" aria-current="page">Order</li>
         </ol>
       </nav>
@@ -45,21 +15,20 @@
         <form id="addOrder">
         <div class="row">
           <h4 class="col">Order Master</h4>
-          <button type="button" class="btn btn-primary mb-2 col-3 float-right" class="col-2" data-toggle="modal" data-target="#createOrderModal" id="createOrder">
+          <button type="button" class="btn btn-primary mb-2 col-3 float-right col-2" data-toggle="modal" data-target="#createOrderModal" id="resetOrderItemTable">
             Create Order
           </button>
         </div>
         </form>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="orderTableMain">
           <caption>List of Orders</caption>
           <thead >
           </thead>
-          <tbody>
+          <tbody id="orderTableMainBody">
             <tr>
               <td colspan="4">
                 <table class="table" id="orderTable">
-                  <caption>Order:&nbsp;1</caption>
                   <thead class="table-dark">
                       <tr>
                           <th scope="col" name="id">#</th>
@@ -91,15 +60,19 @@
             </tr>
             <tr>
               <td colspan="4">
+                <div class="row">
+                  &nbsp;
+                  <div class="col">Order ID :</div>
+                  <button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice(orderID)">Download</button>
+                  &nbsp;
+                </div>
                 <table class="table" id="orderTable">
-                  <caption>Order:&nbsp;2</caption>
                   <thead class="table-dark">
                       <tr>
                           <th scope="col" name="id">#</th>
                           <th scope="col" name="barcode">Barcode</th>
                           <th scope="col" name="quantity">Quantity</th>
                           <th scope="col" name="mrp">Mrp</th>
-                          <th scope="col" class="d-flex justify-content-end" name="action">Download</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -108,14 +81,12 @@
                           <td>Mark</td>
                           <td>Otto</td>
                           <td>30.00</td>
-                          <td></td>
                       </tr>
                       <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>30.00</td>
-                        <td></td>
                     </tr>
                   </tbody>
                 </table>
@@ -146,34 +117,36 @@
                       <div class="col-5">
                           <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
                       </div>
-                      <div class="col">
-                          <button type="submit" class="btn btn-primary mb-2" class="col-2" id="addOrder">Add</button>
+                      <div class="col-2">
+                          <button type="submit" class="btn btn-primary mb-2" id="addOrderItem">Add</button>
                       </div>
                   </div>
                 </form>
                 &nbsp;
-                <table class="table" id="orderTableAdd">
-                  <caption>Order:&nbsp;2</caption>
+                <table class="table" id="orderItemTableAdd">
                   <thead class="table-dark">
                       <tr>
                           <th scope="col" name="id">#</th>
                           <th scope="col" name="barcode">Barcode</th>
                           <th scope="col" name="quantity">Quantity</th>
                           <th scope="col" name="mrp">Mrp</th>
+                          <th scope="col" name="action">Actions</th>
                       </tr>
                   </thead>
                   <tbody>
                       <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>30.00</td>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>30.00</td>
+                        <td>Edit | Delete</td>
                       </tr>
                       <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>30.00</td>
+                        <td><button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(10)">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(10)">Delete</button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -194,13 +167,13 @@
                           &nbsp;
                           <div class="form-row">
                               <div class="col-5">
-                                  <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
+                                  <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeUpdateInput">
                               </div>
                               <div class="col-5">
-                                  <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
+                                  <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityUpdateInput">
                               </div>
                               <div class="col-2">
-                                <button type="submit" class="btn btn-primary mb-2" class="col-2" id="updateOrderItem">Update</button>
+                                <button type="submit" class="btn btn-primary mb-2" id="updateOrderItemModal">Update</button>
                             </div>
                           </div>
                         </form>
@@ -230,7 +203,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="createOrderList">Create Order</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="createOrder">Create Order</button>
               </div>
             </div>
           </div>

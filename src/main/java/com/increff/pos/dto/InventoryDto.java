@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.increff.pos.helper.InventoryHelper;
 import com.increff.pos.model.ApiException;
+import com.increff.pos.model.InventoryBarcodeData;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
@@ -43,6 +44,17 @@ public class InventoryDto {
 		ProductPojo productPojo =	productService.getCheck(p.getId());
 		InventoryData data = InventoryHelper.convert(p);
 		data.setBarcode(productPojo.getBarcode());
+		return data;
+	}
+	
+	@Transactional(rollbackOn = ApiException.class)
+	public InventoryBarcodeData getByBarcode(String barcode) throws ApiException {
+		ProductPojo productPojo =	productService.getCheckByBarcode(barcode);
+		InventoryPojo p = service.getCheck(productPojo.getId());
+		InventoryBarcodeData data = new InventoryBarcodeData();
+		data.setQuantity(p.getQuantity());
+		data.setBarcode(productPojo.getBarcode());
+		data.setMrp(productPojo.getMrp());
 		return data;
 	}
 	

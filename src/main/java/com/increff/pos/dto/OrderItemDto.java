@@ -39,15 +39,16 @@ public class OrderItemDto {
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(OrderItemForm form) throws ApiException {
-		ProductPojo productPojo = productService.getCheck(form.getProductId());
+		ProductPojo productPojo = productService.getCheckByBarcode(form.getBarcode());
 		orderService.getCheck(form.getOrderId());
-		InventoryPojo inventoryPojo = inventoryService.getCheck(form.getProductId());
+		InventoryPojo inventoryPojo = inventoryService.getCheck(productPojo.getId());
 		
 		OrderItemPojo p = OrderItemHelper.convert(form);
+		p.setProductId(productPojo.getId());
 		OrderItemHelper.setSellingPrice(p,productPojo.getMrp());
 		
 		OrderItemHelper.updateInventory(p,inventoryPojo);
-		inventoryService.update(form.getProductId(), inventoryPojo);
+		inventoryService.update(productPojo.getId(), inventoryPojo);
 		service.addCheck(p);
 	}
 	
@@ -57,21 +58,29 @@ public class OrderItemDto {
 	}
 	
 	@Transactional
-	public List<OrderItemData> getAll(){
-		List<OrderItemData> results = new ArrayList<OrderItemData>();
+	public List<OrderItemData> getAll() throws ApiException{
 		List<OrderItemPojo> list = service.getAll();
+		List<OrderItemData> results = new ArrayList<OrderItemData>();
 		for(OrderItemPojo p : list) {
-			results.add(OrderItemHelper.convert(p));
+			OrderItemData data = OrderItemHelper.convert(p);
+			ProductPojo productPojo = productService.getCheck(p.getProductId());
+			data.setMrp(data.getSellingPrice());;
+			data.setBarcode(productPojo.getBarcode());
+			results.add(data);
 		}
 		return results;
 	}
 	
 	@Transactional
-	public List<OrderItemData> getByOrderId(int orderId){
-		List<OrderItemData> results = new ArrayList<OrderItemData>();
+	public List<OrderItemData> getByOrderId(int orderId) throws ApiException{
 		List<OrderItemPojo> list = service.getByOrderId(orderId);
+		List<OrderItemData> results = new ArrayList<OrderItemData>();
 		for(OrderItemPojo p : list) {
-			results.add(OrderItemHelper.convert(p));
+			OrderItemData data = OrderItemHelper.convert(p);
+			ProductPojo productPojo = productService.getCheck(p.getProductId());
+			data.setMrp(data.getSellingPrice());;
+			data.setBarcode(productPojo.getBarcode());
+			results.add(data);
 		}
 		return results;
 	}
@@ -79,9 +88,9 @@ public class OrderItemDto {
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,OrderItemForm form) throws ApiException {
 		
-		ProductPojo productPojo = productService.getCheck(form.getProductId());
+		ProductPojo productPojo = productService.getCheckByBarcode(form.getBarcode());
 		orderService.getCheck(form.getOrderId());
-		InventoryPojo inventoryPojo = inventoryService.get(form.getProductId());
+		InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
 		OrderItemPojo p = OrderItemHelper.convert(form);
 		OrderItemHelper.setSellingPrice(p,productPojo.getMrp());
 		
@@ -91,7 +100,7 @@ public class OrderItemDto {
 		inventoryService.update(ex.getProductId(), exInventoryPojo);
 		
 		OrderItemHelper.updateInventory(p,inventoryPojo);
-		inventoryService.update(form.getProductId(), inventoryPojo);
+		inventoryService.update(productPojo.getId(), inventoryPojo);
 		service.update(id, p);
 	
 	}

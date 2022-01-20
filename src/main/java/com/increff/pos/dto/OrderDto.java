@@ -1,6 +1,5 @@
 package com.increff.pos.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,7 +13,6 @@ import com.increff.pos.model.ApiException;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderFormUpdate;
-import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.OrderService;
 
 @Service
@@ -36,12 +34,7 @@ public class OrderDto {
 	
 	@Transactional
 	public List<OrderData> getAll() {
-		List<OrderData> results = new ArrayList<OrderData>();
-		List<OrderPojo> list = service.getAll();
-		for(OrderPojo p : list) {
-			results.add(OrderHelper.convert(p));
-		}
-		return results;
+		return OrderHelper.convert(service.getAll());
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)

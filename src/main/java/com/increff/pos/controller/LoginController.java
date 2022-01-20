@@ -33,13 +33,11 @@ public class LoginController {
 	private UserService service;
 	@Autowired
 	private InfoData info;
-	
 	@ApiOperation(value = "Logs in a user")
 	@PostMapping(path = "/login",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm form) throws ApiException {
 		UserPojo p = service.getEmailCheck(form.getEmail());
 		boolean authenticated = (p != null && Objects.equal(form.getPassword(), p.getPassword()));
-		System.out.println("I was called");
 		if(!authenticated) {
 			info.setMessage("PassWord is not valid");
 			return new ModelAndView("redirect:/site/login");

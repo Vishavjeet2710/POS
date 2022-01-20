@@ -46,7 +46,7 @@ public class BrandService {
 	public BrandPojo getCheckByBrandCategory(String brand,String category) throws ApiException {
 		BrandPojo p = getByBrandCategory(brand, category);
 		if(p==null) {
-			throw new ApiException("Brand with given category and brand name already exists");
+			throw new ApiException("Brand with given category and brand name does not exists");
 		}
 		return p;
 	}

@@ -2,6 +2,9 @@ package com.increff.pos.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.increff.pos.download.OrderDownload;
 import com.increff.pos.dto.OrderDto;
 import com.increff.pos.dto.OrderItemDto;
 import com.increff.pos.model.ApiException;
@@ -20,6 +24,7 @@ import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderPostReturn;
+import com.increff.pos.xmlRootElement.OrderXmlRootElement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,7 +75,7 @@ public class OrderController {
 	
 	@ApiOperation(value = "Get All OrderItems")
 	@GetMapping(value = "/orderitem")
-	public List<OrderItemData> getAllOrderItem(){
+	public List<OrderItemData> getAllOrderItem() throws ApiException{
 		return orderItemdto.getAll();
 	}
 	
@@ -78,5 +83,14 @@ public class OrderController {
 	@PutMapping(value = "/orderitem/{id}")
 	public void updateOrderItem(@PathVariable int id,@RequestBody OrderItemForm form) throws ApiException {
 		orderItemdto.update(id, form);
+	}
+	@ApiOperation(value = "Convert Brand Object to XML")
+	@GetMapping(value = "/order/download/{id}")
+	public void download(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") int id) throws ApiException {
+		OrderXmlRootElement orderDatas = new OrderXmlRootElement();
+		orderDatas.setOrderItemDatas(orderItemdto.getByOrderId(id));
+		OrderData orderData = dto.get(id);
+		orderDatas.setDateTime(orderData.getTime());
+		OrderDownload.OrderDownloadHelper(orderDatas, request, response);
 	}
 }

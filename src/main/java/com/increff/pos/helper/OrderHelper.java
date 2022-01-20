@@ -1,5 +1,8 @@
 package com.increff.pos.helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderFormUpdate;
@@ -29,5 +32,13 @@ public class OrderHelper {
 	
 	public static void trimSpaces(OrderFormUpdate form) {
 		form.setTime(form.getTime().toLowerCase().trim());
+	}
+
+	public static List<OrderData> convert(List<OrderPojo> list) {
+		List<OrderData> results = new ArrayList<OrderData>();
+		for(OrderPojo p : list) {
+			results.add(convert(p));
+		}
+		return results;
 	}
 }

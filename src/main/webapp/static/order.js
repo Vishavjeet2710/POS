@@ -1,4 +1,174 @@
-var orderId;
+var rowCount;
+var update=false;
+function addOrderItem(json){
+    console.log("Adding Inventory to Backend");
+    $.ajax({
+        url: '../api/orderitem',
+        type: 'POST',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log(response);
+        },
+        error: handleAjaxError
+    });
+    return false;
+}
+
+//Here I'm just fetching mrp and inventory and not pushing them
+function addOrderItemDisplay(){
+    console.log("Adding Inventory");
+    var $form = $("#barcodeInput");
+    if(update==true){
+        var $form = $("#barcodeUpdateInput");
+    }
+    var json = toJson($form);
+    $.ajax({
+        url: '../api/inventory/getByBarcode',
+        type: 'PUT',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log(response);
+            getOrderItemList(response);
+        },
+        error: handleAjaxError
+    });
+    return false;
+}
+
+function addOrderItemList(list){
+    var table = document.getElementById('orderItemTableAdd');
+    if(table.rows.length==1){
+        alert("Please Add some products first");
+        return false;
+    }
+    for(var i =1,row;row = table.rows[i];i++){
+         var col = row.cells;
+         var jsonObj = {
+            barcode: col[1].innerHTML,
+            quantity: col[2].innerHTML,
+            mrp: col[3].innerHTML,
+            orderId: list.id
+           }
+        var json = JSON.stringify(jsonObj);
+        console.log(json);
+        addOrderItem(json);
+    }
+}
+
+function checkExisting(){
+    var barcodeCheck = $('#barcodeInput').val();
+    var existing = document.getElementById('localID_'+barcodeCheck+'');
+    if(existing == null){
+        return 0;
+    }
+    return existing.cells.item(2).innerHTML;
+}
+
+function checkExistingForUpdate(){
+    var barcodeCheck = $('#barcodeUpdateInput').val();
+    var existing = document.getElementById('localID_'+barcodeCheck+'');
+    if(existing == null){
+        return 0;
+    }
+    return existing.cells.item(2).innerHTML;
+}
+
+function setListQuantityZero(){
+    var barcodeCheck = $('#barcodeUpdateInput').val();
+    var existing = document.getElementById('localID_'+barcodeCheck+'');
+    existing.cells.item(2).innerHTML = 0;
+}
+
+
+function editOrderItemListModal(requiredQuantity){
+    var barcodeCheck =update ? $('#barcodeUpdateInput').val() : $('#barcodeInput').val();
+    var existing = document.getElementById('localID_'+barcodeCheck+'');
+    existing.cells.item(2).innerHTML = parseInt(requiredQuantity);
+}
+
+function updateOrderItemModal(){
+    update=true;
+    console.log("Updating");
+    addOrderItemDisplay();
+}
+
+function getOrderItemList(list){
+    if(update==true){
+        var existingQuantityForUpdate=checkExistingForUpdate();
+        if(existingQuantityForUpdate<=0){
+            alert("Product with given barcode is not in the list");
+            update=false;
+            return false;
+        }
+        var requiredQuantityForUpdate = parseInt(document.getElementById('quantityUpdateInput').value);
+        var inventoryQuantityForUpdate = list.quantity;
+        if(requiredQuantityForUpdate>inventoryQuantityForUpdate){
+            alert("Not Enough Quantity in Inventory");
+            update=false;
+            return false;
+        }
+        setListQuantityZero();
+        editOrderItemListModal(requiredQuantityForUpdate);
+        update = false;
+        return false;
+    }
+
+    var existingQuantity = parseInt(checkExisting());
+    var requiredQuantity = parseInt(document.getElementById('quantityInput').value);
+    requiredQuantity=requiredQuantity + existingQuantity;
+    var inventoryQuantity = list.quantity;
+    console.log("Existing Quantity" + existingQuantity);
+    console.log("New Required Quantity" + requiredQuantity);
+    console.log("Quantity in Inventory" + inventoryQuantity);
+    if(requiredQuantity>inventoryQuantity){
+        alert("Not Enough Quantity in Inventory");
+        return false;
+    }
+    if(existingQuantity>0){
+        console.log("There was already some existing Quantity" + existingQuantity);
+        editOrderItemListModal(requiredQuantity);
+        return false;
+    }
+    displayOrderItemListModal(list);
+}
+
+function resetOrderItemTable(){
+    console.log("Resetting Table");
+    rowCount=0;
+    var $tbody=$('#orderItemTableAdd').find('tbody');
+    $tbody.empty();
+}
+
+
+// Compatibility standard works on Google chrome mozilla firefox, not on Internet Explorer
+function deleteOrderItemDisplay(barcode){
+    document.getElementById("localID_"+barcode).remove();
+}
+
+function editOrderItemDisplay(barcode){
+    var ele = document.getElementById('localID_'+barcode+'');
+    document.getElementById("barcodeUpdateInput").value = barcode;
+    $('#collapseOne').collapse('show');
+}
+
+function displayOrderItemListModal(list){
+    ++rowCount
+    console.log("Printing Order");
+    var $tbody=$('#orderItemTableAdd').find('tbody');
+    var b = list;
+    var row ='<tr id="localID_'+b.barcode+'">'
+    +'<th scope="row" name="id">'+rowCount+'</th>'
+    +'<td name="barcode">'+b.barcode+'</td>'
+    +'<td name="quantity">'+$('#quantityInput').val()+'</td>'
+    +'<td name="mrp">'+b.mrp+'</td>'
+    +'<td><button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(\'' + b.barcode + '\')">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + b.barcode + '\')">Delete</button></td>'
+    +'</tr>';
+    console.log(row);
+    $tbody.append(row);
+}
+
 function createOrder(){
     console.log("Creating Order");
     var $form = $("#addOrder");
@@ -11,9 +181,7 @@ function createOrder(){
         success: function(response){
             console.log("Order Created");
             $('#createOrderModal').modal('toggle');
-            var b = response;
-            orderId=b.id;
-            console.log(orderId);
+            addOrderItemList(response);
             getOrderList();
         },
         error: handleAjaxError
@@ -21,79 +189,68 @@ function createOrder(){
     return false;
 }
 
+function resetOrderTableMain(){
+    var $tbody=$('#orderTableMain').find('tbody');
+    $tbody.empty();
+}
+
 function getOrderList(){
+    resetOrderTableMain();
     $.ajax({
-        url: '../api/order/'+orderId+'',
+        url: '../api/order',
         type: 'GET',
         success: function(response){
             console.log("Order Item list fetched");
-            displayOrderList(response);
+            getOrder(response);
         },
         error: handleAjaxError
     });
     return false;
 }
 
-function addBrand(){
-    console.log("Adding Brand");
-    var $form = $("#brandForm");
-    var json = toJson($form);
-    $.ajax({
-        url: '../api/brand',
-        type: 'POST',
-        data: json,
-        contentType:'application/json; charset=utf-8',
-        success: function(response){
-            console.log("Brand Created");
-            getBrandList();
-        },
-        error: handleAjaxError
-    });
-    return false;
+function getOrder(list){
+    for(e in list){
+        console.log(list[e].id);
+        getOrderId(list[e].id);
+    }
 }
 
-function getBrandList(){
+function getOrderId(id){
     $.ajax({
-        url: '../api/brand',
+        url: '../api/order/'+id+'',
         type: 'GET',
         success: function(response){
-            console.log("Brand list fetched");
-            displayBrandList(response);
+            console.log("Order Item id fetched");
+            displayOrderItem(response);
         },
         error: handleAjaxError
     });
     return false;
 }
 
-function updateBrand(){
-    console.log("Updating Brand");
-    var $form = $("#brandUpdateForm");
-    var json = toJson($form);
-    $.ajax({
-        url: '../api/brand/update',
-        type: 'PUT',
-        data: json,
-        contentType:'application/json; charset=utf-8',
-        success: function(response){
-            console.log("Brand Updated");
-            $('#updateModal').modal('toggle');
-            getBrandList();
-        },
-        error: handleAjaxError
-    });
-    return false;
+function displayOrderItem(list){
+    console.log("Printing Order");
+    var $tbody=$('#orderTableMainBody');
+    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">#</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
+    for(i in list){
+        var b = list[i];
+        var row ='<tr>'
+        +'<th scope="row">'+i+'</th>'
+        +'<td>'+b.barcode+'</td>'
+        +'<td>'+b.quantity+'</td>'
+        +'<td>'+b.mrp+'</td>'
+        +'</tr>';
+        innerTable=innerTable+row;
+    }
+    innerTable = innerTable+'</tbody></table></td></tr>';
+    $tbody.append(innerTable);
 }
+
 
 // Upload functions
 var fileData = [];
 var errorData = [];
 var processCount = 0;
-
-function processBrand(){
-    var file = $('#brandFile')[0].files[0];
-    console.log("Processing Data");
-    readFileData(file, readFileDataCallback);
-}
 
 function readFileDataCallback(results){
     console.log("CallBack Data");
@@ -101,59 +258,9 @@ function readFileDataCallback(results){
     uploadRows();
 }
 
-function uploadRows(){
-    // Update Progress
-    updateUploadDialog();
-    console.log("Making an Ajax call");
-    console.log(processCount);
-    // If every thing processed than return 
-    if(processCount==fileData.length){
-        getBrandList();
-        return;
-    }
-    // Process next row
-    var row = fileData[processCount];
-    processCount++;
-
-    var json = JSON.stringify(row);
-    var url = '../api/brand';
-
-    // Make ajax call
-    $.ajax({
-        url: '../api/brand',
-        type: 'POST',
-        data: json,
-        contentType:'application/json; charset=utf-8',
-        success: function(response){
-            uploadRows();
-        },
-        error: function(){
-            row.error=response.responseText;
-            errorData.push(row);
-            uploadRows();
-        }
-    });
-}
-
-function updateFileName(){
-    document.querySelector("#brandFileName").textContent = this.files[0].name;
-}
 
 function downloadErrors(){
     writeFileData();
-}
-
-function resetUploadDialog(){
-    var $file = $('#brandFile');
-    $file.val('');
-    $('#brandFileName').html("Choose File");
-    console.log("Reseting");
-    // Reset various counts
-    processCount=0;
-    fileData = [];
-    errorData = [];
-    // Update Counts
-    updateUploadDialog();
 }
 
 function updateUploadDialog(){
@@ -166,45 +273,33 @@ function displayUploadData(){
     resetUploadDialog();
 }
 
-function displayOrderList(list){
-    console.log("Printing Order");
-    var $tbody=$('#orderTableAdd').find('tbody');
-    $tbody.empty();
-    for(i in list){
-        var b = list[i];
-        var row ='<tr>'
-        +'<th scope="row">'+b.id+'</th>'
-        +'<td>'+b.barcode+'</td>'
-        +'<td>'+b.quantity+'</td>'
-        +'<td>'+b.mrp+'</td>'
-        +'</tr>';
-        $tbody.append(row);
-    }
-}
-
 // Download function
 
-function downloadList(){
+function downloadInvoice(orderId){
     console.log("Downloading");
 
-    url='../api/brand/download';
+    url='../api/order/download/'+orderId+'';
     $.ajax(
     {
-    dataType: 'native',
     url: url,
     xhrFields:
     {
         responseType: 'blob'
     },
-    success: function(blob)
+    success: function(data)
     {
-        var filename = "brandList.pdf";
+        console.log(data);
+        var blob = new Blob([data]);
+        var filename = "orderList.pdf";
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = "brandList.pdf";
+        link.download = "orderList.pdf";
         link.click();
         var file = new File([blob], filename, { type: 'application/force-download' });
         window.open(URL.createObjectURL(file));
+    },
+    error:function(respone){
+        console.log(respone);
     }
     });
 }
@@ -212,18 +307,15 @@ function downloadList(){
 
 function init(){
     console.log("initialized");
-    $('#addBrand').click(addBrand);
+    $('#resetOrderItemTable').click(resetOrderItemTable);
+    $('#addOrderItem').click(addOrderItemDisplay);
+    $('#updateOrderItemModal').click(updateOrderItemModal);
+    // $('#downloadButton').click(downloadList);
     $('#createOrder').click(createOrder);
-    $('#updateBrand').click(updateBrand);
-    $('#uploadBrandButton').click(displayUploadData);
-    $('#processBrand').click(processBrand);
-    $('#downloadButton').click(downloadList);
-    $('#brandFile').on('change', updateFileName);
 }
 
 $(document).ready(init)
-$(document).ready(getBrandList);
-
+$(document).ready(getOrderList)
 $('#myModal').on('hidden.bs.modal', function() {
     $('.collapse').collapse('hide');
   });

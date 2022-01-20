@@ -60,4 +60,14 @@
         <category>category four</category>
         <id>12</id>
     </brandDatas>
+    <brandDatas>
+        <brand>nik bakers</brand>
+        <category>food</category>
+        <id>13</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>brand five</brand>
+        <category>category five</category>
+        <id>14</id>
+    </brandDatas>
 </brandXmlRootElement>

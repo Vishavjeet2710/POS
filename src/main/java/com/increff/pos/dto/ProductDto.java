@@ -50,8 +50,6 @@ public class ProductDto {
 	
 	@Transactional
 	public List<ProductData> getAll(){
-		
-		System.out.println("I was  here");
 		List<ProductData> results = new ArrayList<ProductData>();
 		List<ProductPojo> list= service.getAll();
 		for(ProductPojo p : list) {
@@ -59,7 +57,6 @@ public class ProductDto {
 			BrandPojo brandPojo =  brandService.get(p.getBrand_category());
 			data.setBrand(brandPojo.getBrand());
 			data.setCategory(brandPojo.getCategory());
-			System.out.println("Barcode "+data.getBarcode()+" Brand "+ data.getBrand()+" Category "+data.getCategory() +" Name "+data.getName()+" Mrp "+data.getMrp() );
 			results.add(data);
 		}
 		return results;

@@ -1,42 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <!-- Font Awesome-->
-        <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
-        <title>pos</title>
-      </head>
+    <head th:replace="snippet.html :: name_head"></head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-          </ul>
-        </div>
-    </nav>
+    <nav th:replace="snippet.html :: name_app_navbar"></nav>
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/ui/home}">Home</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/ui/admin}">Admin</a></li>
           <li class="breadcrumb-item active" aria-current="page">Product</li>
         </ol>
       </nav>
@@ -61,10 +31,10 @@
                     <input type="text" class="form-control" name="mrp" placeholder="Mrp" id="mrpInput">
                 </div>                
                 <div class="col-1">
-                    <button type="submit" class="btn btn-primary mb-2" class="col-2" id="addProduct">&nbsp; Add &nbsp;</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="addProduct">&nbsp; Add &nbsp;</button>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-primary mb-2" class="col-2" data-toggle="modal" data-target="#updateModal">
+                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#updateModal">
                       Update
                     </button>
                 </div>

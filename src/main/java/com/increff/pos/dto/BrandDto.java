@@ -1,7 +1,6 @@
 package com.increff.pos.dto;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -42,12 +41,8 @@ public class BrandDto {
 	
 	@Transactional
 	public List<BrandData> getAll(){
-		List<BrandPojo> list = service.getAll();
-		List<BrandData> data = new ArrayList<BrandData>();
-		for(BrandPojo p : list) {
-			data.add(BrandHelper.convert(p));
-		}
-		return data;
+		return BrandHelper.convert(service.getAll());
+		
 	}
 	
 	@Transactional(rollbackOn = Exception.class)

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.model.ApiException;
+import com.increff.pos.model.InventoryBarcodeData;
+import com.increff.pos.model.InventoryBarcodeForm;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 
@@ -37,6 +39,12 @@ public class InventoryController {
 	@GetMapping(value = "/{id}")
 	public InventoryData get(@PathVariable int id) throws ApiException {
 		return dto.get(id);
+	}
+	
+	@ApiOperation(value = "Get Inventory of one Product")
+	@PutMapping(value = "/getByBarcode")
+	public InventoryBarcodeData getByBarcode(@RequestBody InventoryBarcodeForm form) throws ApiException {
+		return dto.getByBarcode(form.getBarcode());
 	}
 	
 	@ApiOperation(value = "Get Inventory of each product")

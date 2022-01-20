@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<orderXmlRootElement>
+    <dateTime>2022-01-18T12:06:12.161393400</dateTime>
+    <orderId>0</orderId>
+    <orderItemDatas>
+        <barcode>1@#113</barcode>
+        <mrp>100.595</mrp>
+        <orderId>3</orderId>
+        <quantity>5</quantity>
+        <id>3</id>
+        <sellingPrice>100.595</sellingPrice>
+    </orderItemDatas>
+</orderXmlRootElement>
