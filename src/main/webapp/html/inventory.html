@@ -15,7 +15,7 @@
         <div class="row">
           <h3 class="col-7">Inventory</h3>
           <div class="col-5 float-right">
-            <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;&nbsp;&nbsp;</span></button>
+            <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" id="uploadInventoryButton" >Upload Inventory List</button>
             <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;</span></button>
             <button type="button" class="btn btn-primary" id="downloadButton" >Download Inventory List</button>
@@ -30,14 +30,15 @@
                 <div class="col-5">
                     <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
                 </div>
-                <div class="col-1">
-                    <button type="submit" class="btn btn-primary mb-2" id="addInventory">&nbsp; Add &nbsp;</button>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary mb-2 float-right" id="addInventory">&nbsp; Add &nbsp;</button>
                 </div>
-                <div class="col-1">
+                <!-- Comment off the following code to have update button -->
+                <!-- <div class="col-1">
                   <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#updateModal">
                     Update
-                  </button>
-              </div>
+                  </button> 
+              </div>-->
             </div>
         </form>
 
@@ -82,7 +83,7 @@
                   <form id="inventoryUpdateForm">
                     <div class="form-row">
                       <div>
-                        <h5>&nbsp;Enter the barcode of product to update inventory</h5>
+                        <h5>&nbsp;Current Barcode</h5>
                       </div>
                     </div>
                     <div class="form-row">
@@ -93,7 +94,7 @@
                     &nbsp;
                     <div class="form-row">
                       <div>
-                        <h5>&nbsp;Enter the updated Inventory</h5>
+                        <h5>&nbsp;Updated Inventory</h5>
                       </div>
                     </div>
                     <div class="form-row">
@@ -144,10 +145,7 @@
     </div>
     
     
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../static/papaparse.min.js"></script>
-    <script src="../static/app.js"></script>
+    <footer th:replace="snippet.html :: name_footer"></footer>
     <script src="../static/inventory.js"></script>
 </body>
 </html>

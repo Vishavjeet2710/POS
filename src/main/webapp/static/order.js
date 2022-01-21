@@ -1,10 +1,12 @@
 var rowCount;
 var update=false;
 var upload=false;
+var updateBarcode=0;
+var exQuantity=0;
 function addOrderItem(json){
     console.log("Adding Inventory to Backend");
     $.ajax({
-        url: '../api/orderitem',
+        url: '../api/order/single',
         type: 'POST',
         data: json,
         contentType:'application/json; charset=utf-8',
@@ -20,10 +22,15 @@ function addOrderItem(json){
 function addOrderItemDisplay(){
     console.log("Adding Inventory");
     var $form = $("#barcodeInput");
+    var json;    
     if(update==true){
-        var $form = $("#barcodeUpdateInput");
+        var $form = {};
+        $form.barcode=updateBarcode;
+        json = JSON.stringify($form);
+    }else{
+        json = toJson($form);
     }
-    var json = toJson($form);
+    console.log(json);
     $.ajax({
         url: '../api/inventory/getByBarcode',
         type: 'PUT',
@@ -95,29 +102,37 @@ function editOrderItemListModal(requiredQuantity){
     existing.cells.item(2).innerHTML = parseInt(requiredQuantity);
 }
 
-function updateOrderItemModal(){
+function editOrderItemListModalForUpdate(requiredQuantity){
+    var existing = document.getElementById('localID_'+updateBarcode+'');
+    existing.cells.item(2).innerHTML = parseInt(requiredQuantity);
+    existing.cells.item(4).innerHTML = '<button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(\'' + updateBarcode + '\')">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + updateBarcode + '\')">Delete</button>';
+}
+
+function updateOrderItemModal(barcode){
     update=true;
+    updateBarcode=barcode;
     console.log("Updating");
     addOrderItemDisplay();
 }
 
 function getOrderItemList(list){
     if(update==true){
-        var existingQuantityForUpdate=checkExistingForUpdate();
-        if(existingQuantityForUpdate<=0){
-            alert("Product with given barcode is not in the list");
-            update=false;
-            return false;
-        }
+        // var existingQuantityForUpdate=checkExistingForUpdate();
+        // if(existingQuantityForUpdate<=0){
+        //     alert("Product with given barcode is not in the list");
+        //     update=false;
+        //     return false;
+        // }
         var requiredQuantityForUpdate = parseInt(document.getElementById('quantityUpdateInput').value);
         var inventoryQuantityForUpdate = list.quantity;
         if(requiredQuantityForUpdate>inventoryQuantityForUpdate){
             alert("Not Enough Quantity in Inventory");
+            console.log(exQuantity);
+            editOrderItemListModalForUpdate(exQuantity);
             update=false;
             return false;
         }
-        setListQuantityZero();
-        editOrderItemListModal(requiredQuantityForUpdate);
+        editOrderItemListModalForUpdate(requiredQuantityForUpdate);
         update = false;
         return false;
     }if(upload==true){
@@ -172,8 +187,10 @@ function deleteOrderItemDisplay(barcode){
 
 function editOrderItemDisplay(barcode){
     var ele = document.getElementById('localID_'+barcode+'');
-    document.getElementById("barcodeUpdateInput").value = barcode;
-    $('#collapseOne').collapse('show');
+    exQuantity = ele.cells.item(2).innerHTML;
+    console.log(exQuantity);
+    ele.cells.item(2).innerHTML = '<form id="orderItemForm"><div class="form-row"><div class="col-12"><input type="text" class="form-control " name="quantity" placeholder="Quantity" id="quantityUpdateInput"></div></div></form>';
+    ele.cells.item(4).innerHTML = '<button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="updateOrderItemModal(\'' + barcode + '\')">Update</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + barcode + '\')">Delete</button>';
 }
 
 function displayOrderItemListModal(list){
@@ -235,22 +252,9 @@ function getOrderList(){
 
 function getOrder(list){
     for(e in list){
-        console.log(list[e].id);
-        getOrderId(list[e].id);
+        console.log(list[e]);
+        displayOrderItem(list[e]);
     }
-}
-
-function getOrderId(id){
-    $.ajax({
-        url: '../api/order/'+id+'',
-        type: 'GET',
-        success: function(response){
-            console.log("Order Item id fetched");
-            displayOrderItem(response);
-        },
-        error: handleAjaxError
-    });
-    return false;
 }
 
 function displayOrderItem(list){

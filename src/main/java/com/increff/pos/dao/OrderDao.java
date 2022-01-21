@@ -13,6 +13,7 @@ public class OrderDao extends AbstractDao{
 
 	public static final String SELECT_ID = "select p from OrderPojo p where id=:id";
 	public static final String SELECT_ALL = "select p from OrderPojo p";
+	public static final String SELECT_DATE_TIME = "select p from OrderPojo p where time>=:startDateTime and time<=:endDateTime";
 	
 	public void insert(OrderPojo p) {
 		em().persist(p);
@@ -26,6 +27,14 @@ public class OrderDao extends AbstractDao{
 	
 	public List<OrderPojo> selectAll(){
 		TypedQuery<OrderPojo> query = getQuery(SELECT_ALL,OrderPojo.class);
+		List<OrderPojo> results = query.getResultList();
+		return results;
+	}
+	
+	public List<OrderPojo> selectDateTime(String startDateTime, String endDateTime){
+		TypedQuery<OrderPojo> query = getQuery(SELECT_DATE_TIME,OrderPojo.class);
+		query.setParameter("startDateTime", startDateTime);
+		query.setParameter("endDateTime", endDateTime);
 		List<OrderPojo> results = query.getResultList();
 		return results;
 	}

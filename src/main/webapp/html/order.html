@@ -97,7 +97,7 @@
 
           <!--Create Object -->
         <div class="modal fade" id="createOrderModal" tabindex="-1" role="dialog" aria-labelledby="createOrderModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="createOrderModalLabel">Orders-Items</h5>
@@ -148,7 +148,8 @@
                     </tr>
                   </tbody>
                 </table>
-                &nbsp;
+                <!-- Comment Off the following code to add accordian and bulk upload option -->
+                <!-- &nbsp;
                 <div class="panel-group" id="accordion">
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -206,7 +207,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -219,10 +220,7 @@
 
     
     
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="../static/papaparse.min.js"></script>
-    <script src="../static/app.js"></script>
+    <footer th:replace="snippet.html :: name_footer"></footer>
     <script src="../static/order.js"></script>
 </body>
 </html>

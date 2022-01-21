@@ -11,8 +11,8 @@
 </head>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="name_app_navbar">
-    <a class="navbar-brand" th:href="@{/ui/home}">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e0effa;" th:fragment="name_app_navbar">
+    <a class="navbar-brand" th:href="@{/ui/home}"><img th:src="@{/static/logo.jpg}" class="d-inline-block align-top" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,4 +38,20 @@
           </li>
       </ul>
     </div>
+    <ul class="navbar-nav ml-auto d-flex justiy-content-end">
+      <li class="navbar-text">
+	    </li>
+      <li class="navbar-item"><a th:href="@{/site/logout}"><button class="btn btn-outline-primary ms-3">Logout</button></a></li>
+    </ul>
 </nav>
+
+<footer class="footer  mt-1" th:fragment="name_footer">
+	<div style="text-align: center; font-size: medium; background-color: #e0e0e0;">Copyright Increff 2022<br></div>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="../static/jquery-ajax-native.js"></script>
+	<script th:src="@{/static/papaparse.min.js}"/></script>
+  <script th:src="@{/static/app.js}"/></script>
+	
+	
+</footer>

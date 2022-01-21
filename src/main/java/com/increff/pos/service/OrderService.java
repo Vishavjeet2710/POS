@@ -36,6 +36,11 @@ public class OrderService {
 		return dao.select(id);
 	}
 	
+	@Transactional(rollbackOn = ApiException.class)
+	public List<OrderPojo> getDateTime(String startDateTime,String endDateTime) throws ApiException {
+		return dao.selectDateTime(startDateTime,endDateTime);
+	}
+	
 	@Transactional
 	public List<OrderPojo> getAll() {
 		return dao.selectAll();

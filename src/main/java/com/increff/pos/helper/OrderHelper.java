@@ -6,6 +6,7 @@ import java.util.List;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderFormUpdate;
+import com.increff.pos.model.SaleReportForm;
 import com.increff.pos.model.TimeData;
 import com.increff.pos.pojo.OrderPojo;
 
@@ -40,5 +41,14 @@ public class OrderHelper {
 			results.add(convert(p));
 		}
 		return results;
+	}
+
+	public static String getStartDateTime(SaleReportForm saleReportForm) {
+		return ""+saleReportForm.getStartDate()+"T"+saleReportForm.getStartTime()+"0";
+		
+	}
+
+	public static String getEndDateTime(SaleReportForm saleReportForm) {
+		return ""+saleReportForm.getEndDate()+"T"+saleReportForm.getEndTime()+"99999999999";
 	}
 }
