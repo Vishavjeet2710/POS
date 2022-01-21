@@ -11,6 +11,16 @@ public class OrderXmlRootElement {
 	private List<OrderItemData> orderItemDatas;
 	private int orderId;
 	private String dateTime;
+	private String date;
+	private String time;
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	public List<OrderItemData> getOrderItemDatas() {
 		return orderItemDatas;
 	}
@@ -32,6 +42,16 @@ public class OrderXmlRootElement {
 	}
 
 	public void setDateTime(String string) {
+		date = string.substring(0, 9);
+		time = string.substring(11, 18);
 		this.dateTime = string;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public String getTime() {
+		return time;
 	}	
 }

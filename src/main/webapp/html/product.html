@@ -6,13 +6,21 @@
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a th:href="@{/ui/home}">Home</a></li>
-          <li class="breadcrumb-item"><a th:href="@{/ui/admin}">Admin</a></li>
           <li class="breadcrumb-item active" aria-current="page">Product</li>
         </ol>
       </nav>
     &nbsp;
     <div class="container">
-        <h4>Product Master</h4>
+        <div class="row">
+            <h3 class="col-7">Product</h3>
+            <div class="col-5 float-right">
+                <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" id="uploadProductButton" >Upload Product List</button>
+                <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;</span></button>
+                <button type="button" class="btn btn-primary" id="downloadButton" >Download Product List</button>
+            </div>
+        </div>
+        &nbsp;
         <form id="productForm">
             <div class="form-row">
                 <div class="col-2">
@@ -43,11 +51,10 @@
     &nbsp;
         <table class="table" id="productTable">
             <caption>List of Products
-                <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#uploadModal" id="uploadProductButton" >Upload Product List</button>
             </caption>
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Serial No.</th>
                     <th scope="col">Barcode</th>
                     <th scope="col">Brand</th>
                     <th scope="col">Category</th>
@@ -90,7 +97,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col">
-                                <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
+                                <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeUpdateInput">
                             </div>
                         </div>
                         &nbsp;
@@ -151,7 +158,8 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="processProduct"  data-dismiss="modal">Upload</button>
+                <button type="button" class="btn btn-primary" id="processProduct" >Upload</button>
+                <button type="button" class="btn btn-warning" id="download-errors" >Download Errors</button>
                 </div>
             </div>
             </div>

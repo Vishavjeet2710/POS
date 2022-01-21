@@ -2,6 +2,9 @@ package com.increff.pos.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.increff.pos.download.InventoryDownload;
 import com.increff.pos.dto.InventoryDto;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.InventoryBarcodeData;
 import com.increff.pos.model.InventoryBarcodeForm;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.xmlRootElement.InventoryXmlRootElement;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,5 +62,13 @@ public class InventoryController {
 	@PutMapping(value = "/update")
 	public void update(@RequestBody InventoryForm form) throws ApiException {
 		dto.update(form);
+	}
+	
+	@ApiOperation(value = "Download Inventory Reports")
+	@GetMapping(value = "/download")
+	public void download(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+		InventoryXmlRootElement inventoryDatas = new InventoryXmlRootElement();
+		inventoryDatas.setInventoryDatas(dto.getAll());
+		InventoryDownload.InventoryDownloadHelper(inventoryDatas, request, response);
 	}
 }

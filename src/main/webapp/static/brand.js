@@ -91,8 +91,9 @@ function uploadRows(){
         success: function(response){
             uploadRows();
         },
-        error: function(){
-            row.error=response.responseText;
+        error: function(response){
+            var ele=JSON.parse(response.responseText);
+            row.error=ele.message;
             errorData.push(row);
             uploadRows();
         }
@@ -104,7 +105,7 @@ function updateFileName(){
 }
 
 function downloadErrors(){
-    writeFileData();
+    writeFileData(errorData);
 }
 
 function resetUploadDialog(){
@@ -130,17 +131,25 @@ function displayUploadData(){
     resetUploadDialog();
 }
 
+function editBrand(id){
+    var ele = document.getElementById('localID_'+id+'');
+    console.log(ele);
+    document.getElementById("exBrandInput").value = ele.cells[1].innerHTML;
+    document.getElementById("exCategoryInput").value = ele.cells[2].innerHTML;
+    $('#updateModal').modal('toggle');
+}
+
 function displayBrandList(list){
     console.log("Printing Brands");
     var $tbody=$('#brandTable').find('tbody');
     $tbody.empty();
     for(i in list){
         var b = list[i];
-        var row ='<tr>'
-        +'<th scope="row">'+b.id+'</th>'
+        var row ='<tr id="localID_'+b.id+'">'
+        +'<th scope="row">'+String(parseInt(i)+1)+'</th>'
         +'<td>'+b.brand+'</td>'
         +'<td>'+b.category+'</td>'
-        +'<td class="d-flex justify-content-end"> Edit | Delete </td>'
+        +'<td class="d-flex justify-content-end"> <button type="button" class="btn btn-secondary btn-sm float-right" onclick="editBrand(\'' + b.id + '\')" >Edit</button> </td>'
         +'</tr>';
         $tbody.append(row);
     }
@@ -162,13 +171,10 @@ function downloadList(){
     },
     success: function(blob)
     {
-        var filename = "brandList.pdf";
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = "brandList.pdf";
         link.click();
-        var file = new File([blob], filename, { type: 'application/force-download' });
-        window.open(URL.createObjectURL(file));
     }
     });
 }
@@ -181,6 +187,7 @@ function init(){
     $('#uploadBrandButton').click(displayUploadData);
     $('#processBrand').click(processBrand);
     $('#downloadButton').click(downloadList);
+    $('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
 }
 

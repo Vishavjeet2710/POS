@@ -6,13 +6,21 @@
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a th:href="@{/ui/home}">Home</a></li>
-          <li class="breadcrumb-item"><a th:href="@{/ui/admin}">Admin</a></li>
           <li class="breadcrumb-item active" aria-current="page">Brand</li>
         </ol>
       </nav>
     &nbsp;
     <div class="container">
-        <h4>Brand Master</h4>
+        <div class="row">
+        <h3 class="col-7">Brand</h3>
+        <div class="col-5 float-right">
+          <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal" id="uploadBrandButton" >Upload Brand List</button>
+          <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;</span></button>
+          <button type="button" class="btn btn-primary" id="downloadButton" >Download Brand List</button>
+        </div>
+        </div>
+        &nbsp;
         <form id="brandForm">
             <div class="form-row">
                 <div class="col-5">
@@ -35,13 +43,11 @@
         
         <table class="table" id="brandTable">
             <caption>List of Brand
-                <button type="button" class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#uploadModal" id="uploadBrandButton" >Upload Brand List</button>
-                <button type="button" class="btn bg-transparent btn-sm float-right" ><span>&nbsp;</span></button>
-                <button type="button" class="btn btn-secondary btn-sm float-right" id="downloadButton" >Download Brand List</button>
+                
             </caption>
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" name="id">#</th>
+                    <th scope="col" name="id">Serial No.</th>
                     <th scope="col" name="brand">Brand</th>
                     <th scope="col" name="category">Category</th>
                     <th scope="col" class="d-flex justify-content-end" name="action">Actions</th>
@@ -133,7 +139,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="processBrand"  data-dismiss="modal">Upload</button>
+              <button type="button" class="btn btn-primary" id="processBrand">Upload</button>
+              <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
             </div>
           </div>
         </div>

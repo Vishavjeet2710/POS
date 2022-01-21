@@ -91,6 +91,7 @@ public class OrderController {
 		orderDatas.setOrderItemDatas(orderItemdto.getByOrderId(id));
 		OrderData orderData = dto.get(id);
 		orderDatas.setDateTime(orderData.getTime());
+		orderDatas.setOrderId(id);
 		OrderDownload.OrderDownloadHelper(orderDatas, request, response);
 	}
 }

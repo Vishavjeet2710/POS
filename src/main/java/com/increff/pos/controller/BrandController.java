@@ -57,7 +57,7 @@ public class BrandController {
 		dto.update(form);
 	}
 	
-	@ApiOperation(value = "Download Brand Object to XML")
+	@ApiOperation(value = "Download Brand Report")
 	@GetMapping(value = "/download")
 	public void download(HttpServletRequest request, HttpServletResponse response) throws ApiException {
 		BrandXmlRootElement brandDatas = new BrandXmlRootElement();

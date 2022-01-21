@@ -1,5 +1,6 @@
 var rowCount;
 var update=false;
+var upload=false;
 function addOrderItem(json){
     console.log("Adding Inventory to Backend");
     $.ajax({
@@ -74,7 +75,13 @@ function checkExistingForUpdate(){
     }
     return existing.cells.item(2).innerHTML;
 }
-
+function checkExistingForUpload(){
+    var existing = document.getElementById('localID_'+fileData[processCount-1].barcode+'');
+    if(existing == null){
+        return 0;
+    }
+    return existing.cells.item(2).innerHTML;
+} 
 function setListQuantityZero(){
     var barcodeCheck = $('#barcodeUpdateInput').val();
     var existing = document.getElementById('localID_'+barcodeCheck+'');
@@ -83,7 +90,7 @@ function setListQuantityZero(){
 
 
 function editOrderItemListModal(requiredQuantity){
-    var barcodeCheck =update ? $('#barcodeUpdateInput').val() : $('#barcodeInput').val();
+    var barcodeCheck =update ? $('#barcodeUpdateInput').val() : upload ? fileData[processCount-1].barcode : $('#barcodeInput').val();
     var existing = document.getElementById('localID_'+barcodeCheck+'');
     existing.cells.item(2).innerHTML = parseInt(requiredQuantity);
 }
@@ -112,6 +119,22 @@ function getOrderItemList(list){
         setListQuantityZero();
         editOrderItemListModal(requiredQuantityForUpdate);
         update = false;
+        return false;
+    }if(upload==true){
+        var existingQuantityForUpload=checkExistingForUpload();
+        var requiredQuantityForUpload = parseInt(fileData[processCount-1].quantity)+parseInt(existingQuantityForUpload);
+        var inventoryQuantityForUpload = list.quantity;
+        if(requiredQuantityForUpload>inventoryQuantityForUpload){
+            var row = file[processCount-1];
+            row.error = "Not Enough Quantity in Inventory";
+            errorData.push(row);
+            return false;
+        }
+        if(existingQuantityForUpload>0){
+            editOrderItemListModal(requiredQuantityForUpload);
+            return false;
+        }
+        displayOrderItemListModal(list);
         return false;
     }
 
@@ -158,15 +181,17 @@ function displayOrderItemListModal(list){
     console.log("Printing Order");
     var $tbody=$('#orderItemTableAdd').find('tbody');
     var b = list;
-    var row ='<tr id="localID_'+b.barcode+'">'
+    var quantityHTML = upload ? fileData[processCount-1].quantity : $('#quantityInput').val();
+    var rowHTML ='<tr id="localID_'+b.barcode+'">'
     +'<th scope="row" name="id">'+rowCount+'</th>'
     +'<td name="barcode">'+b.barcode+'</td>'
-    +'<td name="quantity">'+$('#quantityInput').val()+'</td>'
+    +'<td name="quantity">'+ quantityHTML +'</td>'
     +'<td name="mrp">'+b.mrp+'</td>'
     +'<td><button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(\'' + b.barcode + '\')">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + b.barcode + '\')">Delete</button></td>'
     +'</tr>';
-    console.log(row);
-    $tbody.append(row);
+    console.log(rowHTML);
+    console.log(typeof(rowHTML));
+    $tbody.append(rowHTML);
 }
 
 function createOrder(){
@@ -231,11 +256,12 @@ function getOrderId(id){
 function displayOrderItem(list){
     console.log("Printing Order");
     var $tbody=$('#orderTableMainBody');
-    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">#</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
+    console.log(list);
+    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">Serial No.</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
     for(i in list){
         var b = list[i];
         var row ='<tr>'
-        +'<th scope="row">'+i+'</th>'
+        +'<th scope="row">'+ String(parseInt(i)+1)+'</th>'
         +'<td>'+b.barcode+'</td>'
         +'<td>'+b.quantity+'</td>'
         +'<td>'+b.mrp+'</td>'
@@ -252,15 +278,72 @@ var fileData = [];
 var errorData = [];
 var processCount = 0;
 
+function processOrder(){
+    upload=true;
+    var file = $('#orderFile')[0].files[0];
+    console.log("Processing Data");
+    readFileData(file, readFileDataCallback);
+}
+
 function readFileDataCallback(results){
     console.log("CallBack Data");
     fileData = results.data;
     uploadRows();
 }
 
+function uploadRows(){
+    // Update Progress
+    updateUploadDialog();
+    console.log("Making an Ajax call");
+    console.log(processCount);
+    // If every thing processed than return 
+    if(processCount==fileData.length){
+        upload=false;
+        return;
+    }
+    // Process next row
+    var row = fileData[processCount];
+    processCount++;
+    var data = {barcode : row.barcode};
+    var json = JSON.stringify(data);
+    $.ajax({
+        url: '../api/inventory/getByBarcode',
+        type: 'PUT',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log(response);
+            getOrderItemList(response);
+            uploadRows();
+        },
+        error: function(response){
+            var ele=JSON.parse(response.responseText);
+            row.error=ele.message;
+	   		errorData.push(row);
+	   		uploadRows();
+        }
+    });
+}
+
+function updateFileName(){
+    document.querySelector("#orderFileName").textContent = this.files[0].name;
+}
 
 function downloadErrors(){
-    writeFileData();
+    writeFileData(errorData);
+}
+
+function resetUploadDialog(){
+    var $file = $('#orderFile');
+    $file.val('');
+    $('#orderFileName').html("Choose File");
+    console.log("Reseting");
+    // Reset various counts
+    processCount=0;
+    fileData = [];
+    errorData = [];
+    // Update Counts
+    updateUploadDialog();
 }
 
 function updateUploadDialog(){
@@ -269,6 +352,9 @@ function updateUploadDialog(){
     $('#errorCount').html("" + errorData.length);
 }
 
+function displayUploadData(){
+    resetUploadDialog();
+}
 function displayUploadData(){
     resetUploadDialog();
 }
@@ -290,13 +376,10 @@ function downloadInvoice(orderId){
     {
         console.log(data);
         var blob = new Blob([data]);
-        var filename = "orderList.pdf";
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = "orderList.pdf";
         link.click();
-        var file = new File([blob], filename, { type: 'application/force-download' });
-        window.open(URL.createObjectURL(file));
     },
     error:function(respone){
         console.log(respone);
@@ -310,8 +393,11 @@ function init(){
     $('#resetOrderItemTable').click(resetOrderItemTable);
     $('#addOrderItem').click(addOrderItemDisplay);
     $('#updateOrderItemModal').click(updateOrderItemModal);
-    // $('#downloadButton').click(downloadList);
+    $('#uploadOrderButton').click(displayUploadData);
+    $('#processOrder').click(processOrder);
     $('#createOrder').click(createOrder);
+    $('#download-errors').click(downloadErrors);
+    $('#orderFile').on('change', updateFileName);
 }
 
 $(document).ready(init)

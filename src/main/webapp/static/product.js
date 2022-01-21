@@ -95,8 +95,9 @@ function uploadRows(){
         success: function(response){
             uploadRows();
         },
-        error: function(){
-            row.error=response.responseText;
+        error: function(response){
+            var ele=JSON.parse(response.responseText);
+            row.error=ele.message;
             errorData.push(row);
             uploadRows();
         }
@@ -108,7 +109,7 @@ function updateFileName(){
 }
 
 function downloadErrors(){
-    writeFileData();
+    writeFileData(errorData);
 }
 
 function resetUploadDialog(){
@@ -134,6 +135,13 @@ function displayUploadData(){
     resetUploadDialog();
 }
 
+function editProduct(id){
+    var ele = document.getElementById('localID_'+id+'');
+    console.log(ele);
+    document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;
+    $('#updateModal').modal('toggle');
+}
+
 function displayProductList(list){
     console.log("Printing Products");
     console.log("Printing Products");
@@ -145,17 +153,45 @@ function displayProductList(list){
         var p = list[i];
         console.log("YES");
         console.log(p);
-        var row ='<tr>'
-        +'<th scope="row">'+p.id+'</th>'
+        var row ='<tr id="localID_'+p.id+'">'
+        +'<th scope="row">'+String(parseInt(i)+1)+'</th>'
         +'<td>'+p.barcode+'</td>'
         +'<td>'+p.brand+'</td>'
         +'<td>'+p.category+'</td>'
         +'<td>'+p.name+'</td>'
         +'<td>'+p.mrp+'</td>'
-        +'<td class="d-flex justify-content-end"> Edit | Delete </td>'
+        +'<td class="d-flex justify-content-end"> <button type="button" class="btn btn-secondary btn-sm float-right" onclick="editProduct(\'' + p.id + '\')" >Edit</button> </td>'
         +'</tr>';
         $tbody.append(row);
     }
+}
+
+// Download function
+
+function downloadList(){
+    console.log("Downloading");
+
+    url='../api/product/download/';
+    $.ajax(
+    {
+    url: url,
+    xhrFields:
+    {
+        responseType: 'blob'
+    },
+    success: function(data)
+    {
+        console.log(data);
+        var blob = new Blob([data]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "productList.pdf";
+        link.click();
+    },
+    error:function(respone){
+        console.log(respone);
+    }
+    });
 }
 
 function init(){
@@ -164,6 +200,8 @@ function init(){
     $('#updateProduct').click(updateProduct);
     $('#uploadProductButton').click(displayUploadData);
     $('#processProduct').click(processProduct);
+    $('#downloadButton').click(downloadList);
+    $('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName);
 }
 

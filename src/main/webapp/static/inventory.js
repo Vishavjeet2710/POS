@@ -92,8 +92,9 @@ function uploadRows(){
         success: function(response){
             uploadRows();
         },
-        error: function(){
-            row.error=response.responseText;
+        error: function(response){
+            var ele=JSON.parse(response.responseText);
+            row.error=ele.message;
             errorData.push(row);
             uploadRows();
         }
@@ -105,7 +106,7 @@ function updateFileName(){
 }
 
 function downloadErrors(){
-    writeFileData();
+    writeFileData(errorData);
 }
 
 function resetUploadDialog(){
@@ -131,20 +132,55 @@ function displayUploadData(){
     resetUploadDialog();
 }
 
+function editInventory(id){
+    var ele = document.getElementById('localID_'+id+'');
+    console.log(ele);
+    document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;
+    $('#updateModal').modal('toggle');
+}
+
 function displayInventoryList(list){
     console.log("Printing Inventory");
     var $tbody=$('#inventoryTable').find('tbody');
     $tbody.empty();
     for(i in list){
         var b = list[i];
-        var row ='<tr>'
-        +'<th scope="row">'+b.id+'</th>'
+        var row ='<tr id="localID_'+b.id+'">'
+        +'<th scope="row">'+String(parseInt(i)+1)+'</th>'
         +'<td>'+b.barcode+'</td>'
         +'<td>'+b.quantity+'</td>'
-        +'<td class="d-flex justify-content-end"> Edit | Delete </td>'
+        +'<td class="d-flex justify-content-end">  <button type="button" class="btn btn-secondary btn-sm float-right" onclick="editInventory(\'' + b.id + '\')" >Edit</button></td>'
         +'</tr>';
         $tbody.append(row);
     }
+}
+
+// Download function
+
+function downloadList(){
+    console.log("Downloading");
+
+    url='../api/inventory/download/';
+    $.ajax(
+    {
+    url: url,
+    xhrFields:
+    {
+        responseType: 'blob'
+    },
+    success: function(data)
+    {
+        console.log(data);
+        var blob = new Blob([data]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "inventoryList.pdf";
+        link.click();
+    },
+    error:function(respone){
+        console.log(respone);
+    }
+    });
 }
 
 function init(){
@@ -153,6 +189,8 @@ function init(){
     $('#updateInventory').click(updateInventory);
     $('#uploadInventoryButton').click(displayUploadData);
     $('#processInventory').click(processInventory);
+    $('#download-errors').click(downloadErrors);
+    $('#downloadButton').click(downloadList);
     $('#inventoryFile').on('change', updateFileName);
 }
 

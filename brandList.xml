@@ -2,7 +2,7 @@
 <brandXmlRootElement>
     <brandDatas>
         <brand>amul</brand>
-        <category>milk</category>
+        <category>woooooowwww</category>
         <id>1</id>
     </brandDatas>
     <brandDatas>
@@ -69,5 +69,15 @@
         <brand>brand five</brand>
         <category>category five</category>
         <id>14</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>amul</brand>
+        <category>food</category>
+        <id>15</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>amul</brand>
+        <category>milk</category>
+        <id>16</id>
     </brandDatas>
 </brandXmlRootElement>

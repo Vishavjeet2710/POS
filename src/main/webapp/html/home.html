@@ -3,28 +3,36 @@
   <head th:replace="snippet.html :: name_head"></head>
 <body>
     <nav th:replace="snippet.html :: name_app_navbar"></nav>
-
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page"><a th:href="@{/ui/home}">Home</a></li>
+        </ol>
+      </nav>
     &nbsp;
     <div class="container">
-        <h3>Home</h3>
+        <table class="table table-borderless">
+            <tr>
+                <td>
+                    <a th:href="@{/ui/admin}" title="Admin" class="link-secondary"><img th:src="@{/static/AdminIcon.png}"><br>&nbsp;&nbsp;&nbsp;&nbsp;Admin</a>
+                </td>
+                
+                <td>
+                <a th:href="@{/ui/brand}" title="Brand" class="link-secondary"><img th:src="@{/static/BrandIcon.png}"><br>&nbsp;&nbsp;&nbsp;&nbsp;Brand</a>
+                </td>
 
-        <div class="row">
-            <div class="col-4">
-                <a th:href="@{/ui/brand}" title="Brand"><i class="fas fa-cog fa-5x"></i></a>
-            </div>
+                <td>
+                <a th:href="@{/ui/product}" title="Product" class="link-secondary"><img th:src="@{/static/ProductIcon.png}"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product</a>
+                </td>
 
-            <div class="col-4">
-                <a th:href="@{/ui/product}" title="Product"><i class="fas fa-cog fa-5x"></i></a>
-            </div>
+                <td>
+                <a th:href="@{/ui/inventory}" title="Inventory" class="link-secondary"><img th:src="@{/static/InventoryIcon.jpg}"><br>&nbsp;&nbsp;&nbsp;&nbsp;Inventory</a>
+                </td>
 
-            <div class="col-4">
-                <a th:href="@{/ui/inventory}" title="Inventory"><i class="fas fa-cog fa-5x"></i></a>
-            </div>
-
-            <div class="col-4">
-              <a th:href="@{/ui/order}" title="Order"><i class="fas fa-cog fa-5x"></i></a>
-          </div>
-        </div>
+                <td>
+                <a th:href="@{/ui/order}" title="Order" class="link-secondary"><img th:src="@{/static/OrderIcon.png}"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order</a>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

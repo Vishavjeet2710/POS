@@ -9,17 +9,17 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.fop.apps.FOPException;
 
-import com.increff.pos.converter.OrderXmlConverter;
-import com.increff.pos.fop.OrderFop;
+import com.increff.pos.converter.ProductXmlConverter;
+import com.increff.pos.fop.ProductFop;
 import com.increff.pos.model.ApiException;
-import com.increff.pos.xmlRootElement.OrderXmlRootElement;
+import com.increff.pos.xmlRootElement.ProductXmlRootElement;
 
-public class OrderDownload {
-	public static void OrderDownloadHelper(OrderXmlRootElement orderDatas,HttpServletRequest request, HttpServletResponse response) throws ApiException {
-		OrderXmlConverter.jaxbObjectToXML(orderDatas);
+public class ProductDownload {
+	public static void ProductDownloadHelper(ProductXmlRootElement productDatas,HttpServletRequest request, HttpServletResponse response) throws ApiException {
+		ProductXmlConverter.jaxbObjectToXML(productDatas);
 		ByteArrayOutputStream out;
 		try {
-			out = OrderFop.downloadPDF();
+			out = ProductFop.downloadPDF();
 		} catch (FOPException | IOException | TransformerException e) {
 			throw new ApiException("Error occured while using Apache Fop"+e);
 		}

@@ -32,6 +32,7 @@ function readFileData(file, callback){
 
 
 function writeFileData(arr){
+    console.log(arr);
 	var config = {
 		quoteChar: '',
 		escapeChar: '',
