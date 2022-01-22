@@ -1,41 +1,41 @@
 package com.increff.pos.model;
 
 public class SaleReportForm {
-	private String startDate;
-	private String startTime;
-	private String endDate;
-	private String endTime;
+	private String startDateTime;
+	private String endDateTime;
+	private String brand;
+	private String category;
 
-	public String getStartDate() {
-		return startDate;
+	public String getStartDateTime() {
+		return startDateTime;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setStartDateTime(String startDateTime) {
+		this.startDateTime = startDateTime;
 	}
 
-	public String getStartTime() {
-		return startTime;
+	public String getEndDateTime() {
+		return endDateTime;
 	}
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setEndDateTime(String endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public String getBrand() {
+		return brand;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
-	public String getEndTime() {
-		return endTime;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }

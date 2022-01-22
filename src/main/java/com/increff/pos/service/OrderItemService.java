@@ -55,6 +55,14 @@ public class OrderItemService {
 		return dao.selectByOrderId(orderId);
 	}
 	
+	@Transactional
+	public List<OrderItemPojo> getByOrderIdBrandCategory(int orderId,String brand,String category){
+		if(category==null || category=="") {
+			return dao.selectByOrderIdBrand(orderId, brand);
+		}
+		return dao.selectByOrderIdBrandCategory(orderId,brand,category);
+	}
+	
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id,OrderItemPojo p) throws ApiException {
 		OrderItemPojo ex = getCheck(id);

@@ -21,7 +21,6 @@ import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderPostReturn;
-import com.increff.pos.model.SaleReportData;
 import com.increff.pos.model.SaleReportForm;
 
 import io.swagger.annotations.Api;
@@ -62,9 +61,9 @@ public class OrderController {
 	}
 	
 	@ApiOperation(value = "Return list")
-	@PutMapping(value = "/download/check")
-	public SaleReportData downloadSaleReport(@RequestBody SaleReportForm saleReportForm) throws ApiException{
-		return orderDto.DownloadSaleReport(saleReportForm);
+	@PutMapping(value = "/download/")
+	public void downloadSaleReport(HttpServletRequest request, HttpServletResponse response,@RequestBody SaleReportForm saleReportForm) throws ApiException{
+		orderDto.DownloadSaleReport(request,response,saleReportForm);
 	}
 	
 	

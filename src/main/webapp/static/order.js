@@ -365,6 +365,36 @@ function displayUploadData(){
 
 // Download function
 
+function downloadSaleReport(){
+    console.log("Downloading");
+    var $form = $("#saleReportForm");
+    var json=toJson($form);
+    url='../api/order/download/';
+    $.ajax(
+    {
+    url: url,
+    type: 'PUT',
+    data: json,
+    contentType:'application/json; charset=utf-8',
+    xhrFields:
+    {
+        responseType: 'blob'
+    },
+    success: function(data)
+    {
+        console.log(data);
+        var blob = new Blob([data]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "SaleReport.pdf";
+        link.click();
+    },
+    error:function(respone){
+        console.log(respone);
+    }
+    });
+}
+
 function downloadInvoice(orderId){
     console.log("Downloading");
 

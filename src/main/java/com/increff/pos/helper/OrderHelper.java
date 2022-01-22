@@ -3,6 +3,7 @@ package com.increff.pos.helper;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.increff.pos.model.ApiException;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderFormPost;
 import com.increff.pos.model.OrderFormUpdate;
@@ -43,12 +44,22 @@ public class OrderHelper {
 		return results;
 	}
 
-	public static String getStartDateTime(SaleReportForm saleReportForm) {
-		return ""+saleReportForm.getStartDate()+"T"+saleReportForm.getStartTime()+"0";
-		
+	public static String getEndDateTime(SaleReportForm saleReportForm) throws ApiException {
+		if(saleReportForm.getEndDateTime()==null) {
+			throw new ApiException("Select some end date time");
+		}
+		saleReportForm.setBrand(saleReportForm.getBrand().trim().toLowerCase());
+		saleReportForm.setCategory(saleReportForm.getCategory().trim().toLowerCase());
+		if(saleReportForm.getBrand()==null || saleReportForm.getBrand().isEmpty()) {
+			throw new ApiException("Brand can not be null or empty");
+		}
+		return saleReportForm.getEndDateTime();
 	}
 
-	public static String getEndDateTime(SaleReportForm saleReportForm) {
-		return ""+saleReportForm.getEndDate()+"T"+saleReportForm.getEndTime()+"99999999999";
+	public static String getStartDateTime(SaleReportForm saleReportForm) throws ApiException {
+		if(saleReportForm.getStartDateTime()==null) {
+			throw new ApiException("Select some start date time");
+		}
+		return saleReportForm.getStartDateTime();
 	}
 }

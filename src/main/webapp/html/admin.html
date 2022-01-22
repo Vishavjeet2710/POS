@@ -11,126 +11,101 @@
       </nav>
     &nbsp;
     <div class="container">
-        <h4>Brand Master</h4>
-        <form id="brandForm">
-            <div class="form-row">
-                <div class="col-5">
-                    <input type="text" class="form-control" name="brand" placeholder="Brand" id="brandInput">
-                </div>
-                <div class="col-5">
-                    <input type="text" class="form-control" name="category" placeholder="Category" id="categoryInput">
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-2 col-2" id="addBrand">Add</button>
-                </div>
-            </div>
-        </form>
-    &nbsp;
-        <h4>Product Master</h4>
-        <form id="productForm">
-            <div class="form-row">
-                <div class="col-3">
-                    <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
-                </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" name="brand_category" placeholder="Brand_Category" id="brand_categoryInput">
-                </div>
-                <div class="col-3">
-                    <input type="text" class="form-control" name="name" placeholder="Name" id="nameInput">
-                </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" name="mrp" placeholder="mrp" id="mrpInput">
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-2 col-2" id="addProduct">Add</button>
-                </div>
-            </div>
-        </form>
-    &nbsp;
-        <h4>Inventory Master</h4>
-        <form id="inventoryForm">
-            <div class="form-row">
-                <div class="col-5">
-                    <input type="text" class="form-control" name="id" placeholder="ProductID" id="productIdInput">
-                </div>
-                <div class="col-5">
-                    <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary mb-2 col-2" id="addInventory">Add</button>
-                </div>
-            </div>
-        </form>
-
-        &nbsp;
-
-        <table class="table" id="brandTable">
-            <caption>List of Brands</caption>
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col" name="id">#</th>
-                    <th scope="col" name="brand">Brand</th>
-                    <th scope="col" name="category">Category</th>
-                    <th scope="col" class="d-flex justify-content-end" name="action">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td class="d-flex justify-content-end"> Edit | Delete </td>
-                </tr>
-            </tbody>
-          </table>
-
-          &nbsp;
-
-        <table class="table" id="productTable">
-            <caption>List of Products</caption>
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Barcode</th>
-                    <th scope="col">Brand_Category</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Mrp</th>
-                    <th scope="col" class="d-flex justify-content-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>1@23$1</td>
-                    <td>3</td>
-                    <td>Nestle 500 gm</td>
-                    <td>590.00</td>
-                    <td class="d-flex justify-content-end"> Edit | Delete </td>
-                </tr>
-            </tbody>
-          </table>
-
-          &nbsp;
-
-        <table class="table" id="inventoryTable">
-            <caption>List of Inventory</caption>
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col" class="d-flex justify-content-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>70</td>
-                    <td class="d-flex justify-content-end"> Edit | Delete </td>
-                </tr>
-            </tbody>
-          </table>
+    <div class="row">
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <h3>Admin</h3>
     </div>
+        &nbsp;
+        <form id="userForm">
+            <div class="form-row row">
+                <div class="col-5">
+                    <input type="text" class="form-control" name="email" placeholder="email" id="emailInput">
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control" name="password" placeholder="Password" id="passwordInput">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary mb-2 float-right" id="addUser">&nbsp; Add &nbsp;</button>
+                </div>
+                <!-- Comment off the following code to have update button -->
+                <!-- <div class="col-1">
+                  <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#updateModal">
+                    Update
+                  </button>
+              </div> -->
+            </div>
+        </form>
+    
+    &nbsp;
+    <table class="table" id="userTable">
+        <caption>List of Users
+            
+        </caption>
+        <thead class="table-dark">
+            <tr>
+                <th scope="col" name="id">Serial No.</th>
+                <th scope="col" name="email">Email</th>
+                <th scope="col" name="activity">Activity Status</th>
+                <th scope="col" class="d-flex justify-content-end" name="action">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td class="d-flex justify-content-end"> <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updatePasswordModal" id="updatePasswordButton" >Update Password</button></td>
+            </tr>
+        </tbody>
+      </table>
 
+      &nbsp;
+
+        <!--Update Password -->
+        <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePasswordModalLabel">Update Brand</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            &nbsp;
+            <div class="modal-body">
+                <form id="passwordUpdateForm">
+                <div class="form-row">
+                    <div>
+                    <h5>&nbsp;Enter new Password</h5>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="password" class="form-control " name="password" placeholder="Password" id="newPasswordInput">
+                    </div>
+                </div>
+                &nbsp;
+                <div class="form-row">
+                    <div>
+                    <h5>&nbsp;Confirm new Password</h5>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="password" class="form-control" name="passwordConfirm" placeholder="Password" id="newPasswordConfirmInput">
+                    </div>
+                </div>
+                &nbsp;
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="updatePassword">Update</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
     
     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

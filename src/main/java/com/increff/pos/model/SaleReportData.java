@@ -1,15 +1,32 @@
 package com.increff.pos.model;
 
-import java.util.List;
-
 public class SaleReportData {
-	List<OrderData> orderDatas;
+	private int quantity;
+	private double revenue;
+	private String category;
 
-	public List<OrderData> getOrderDatas() {
-		return orderDatas;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setOrderDatas(List<OrderData> orderDatas) {
-		this.orderDatas = orderDatas;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
+
+	public double getRevenue() {
+		return revenue;
+	}
+
+	public void setRevenue(double revenue) {
+		this.revenue = revenue;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 }

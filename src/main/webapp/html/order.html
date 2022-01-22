@@ -14,10 +14,16 @@
         <form id="addOrder">
         <div class="row">
           <h4 class="col">Order</h4>
+
+          <button type="button" class="btn btn-primary mb-2 col-3 float-right col-2" data-toggle="modal" data-target="#saleReportModal">
+            Sales Report
+          </button>
+          <button type="button" class="btn bg-transparent btn-sm" ><span>&nbsp;</span></button>
           <button type="button" class="btn btn-primary mb-2 col-3 float-right col-2" data-toggle="modal" data-target="#createOrderModal" id="resetOrderItemTable">
             Create Order
           </button>
         </div>
+        &nbsp;
         </form>
 
         <table class="table table-bordered" id="orderTableMain">
@@ -94,6 +100,71 @@
           </tbody>
         </table>
 
+
+        <div class="modal fade" id="saleReportModal" tabindex="-1" role="dialog" aria-labelledby="saleReportModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="saleReportModalLabel">Sale Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              &nbsp;
+              <div class="modal-body">
+                <form id="saleReportForm">
+                  <div class="form-row">
+                    <div>
+                      <h5>&nbsp;Start Date Time</h5>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col">
+                      <input type="datetime-local" class="form-control" id="startDateTime" name="startDateTime" value="2022-01-12T19:30" min="2018-06-07T00:00" max="2022-06-14T00:00">
+                    </div>
+                  </div>
+                  &nbsp;
+                  <div class="form-row">
+                    <div>
+                      <h5>&nbsp;End Date Time</h5>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="col">
+                        <input type="datetime-local" class="form-control" id="endDateTime" name="endDateTime" value="2022-01-12T19:30" min="2018-06-07T00:00" max="2022-06-14T00:00">
+                      </div>
+                  </div>
+                  &nbsp;
+                  <div class="form-row">
+                    <div>
+                      <h5>&nbsp;Barcode</h5>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="col">
+                          <input type="text" class="form-control" name="brand" placeholder="Brand" id="brandSaleReportInput">
+                      </div>
+                  </div>
+                  &nbsp;
+                  <div class="form-row">
+                    <div>
+                      <h5>&nbsp;Category</h5>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                      <div class="col">
+                        <input type="text" class="form-control" name="category" placeholder="Category" id="categorySaleReportInput">
+                      </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="saleReportDownload" onclick="downloadSaleReport()">Download Report</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
           <!--Create Object -->
         <div class="modal fade" id="createOrderModal" tabindex="-1" role="dialog" aria-labelledby="createOrderModalLabel" aria-hidden="true">

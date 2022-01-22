@@ -48,7 +48,7 @@
 		<fo:table-row>
 			<fo:table-cell border-style="solid" border-width="1pt">
 				<fo:block>
-					<xsl:value-of select="id" />
+					<xsl:number value="position()" format="1" />
 				</fo:block>
 			</fo:table-cell>
 
