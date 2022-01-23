@@ -3,15 +3,15 @@
     <productDatas>
         <barcode>1@#113</barcode>
         <brand>amul</brand>
-        <category>dood</category>
-        <mrp>100.595</mrp>
+        <category>doooooooooood</category>
+        <mrp>100.59</mrp>
         <name>Lassi</name>
         <id>1</id>
     </productDatas>
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>30.0</mrp>
         <name>lassi</name>
         <id>2</id>
@@ -19,7 +19,7 @@
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>30.0</mrp>
         <name>lassi</name>
         <id>3</id>
@@ -27,7 +27,7 @@
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>30.0</mrp>
         <name>lassi</name>
         <id>4</id>
@@ -35,7 +35,7 @@
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>30.0</mrp>
         <name>lassi</name>
         <id>5</id>
@@ -43,7 +43,7 @@
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>30.0</mrp>
         <name>lassi</name>
         <id>6</id>
@@ -51,15 +51,15 @@
     <productDatas>
         <barcode>1@2!23</barcode>
         <brand>amul</brand>
-        <category>dood</category>
-        <mrp>100.595</mrp>
+        <category>doooooooooood</category>
+        <mrp>100.59</mrp>
         <name>lassi</name>
         <id>7</id>
     </productDatas>
     <productDatas>
         <barcode>1@#115</barcode>
         <brand>amul</brand>
-        <category>dood</category>
+        <category>doooooooooood</category>
         <mrp>50.0</mrp>
         <name>strawberry flavor</name>
         <id>8</id>
@@ -95,5 +95,45 @@
         <mrp>40.0</mrp>
         <name>name four</name>
         <id>12</id>
+    </productDatas>
+    <productDatas>
+        <barcode>1@#345</barcode>
+        <brand>puma</brand>
+        <category>shoes</category>
+        <mrp>8000.0</mrp>
+        <name>airrr</name>
+        <id>13</id>
+    </productDatas>
+    <productDatas>
+        <barcode>1@#934</barcode>
+        <brand>guess</brand>
+        <category>jacket</category>
+        <mrp>28000.0</mrp>
+        <name>varsity</name>
+        <id>14</id>
+    </productDatas>
+    <productDatas>
+        <barcode>1@#159</barcode>
+        <brand>lakme</brand>
+        <category>cosmetics</category>
+        <mrp>250.57</mrp>
+        <name>primer</name>
+        <id>15</id>
+    </productDatas>
+    <productDatas>
+        <barcode>1@#999</barcode>
+        <brand>teeling</brand>
+        <category>irish whiskey</category>
+        <mrp>3000.0</mrp>
+        <name>single malt</name>
+        <id>16</id>
+    </productDatas>
+    <productDatas>
+        <barcode>1@#567</barcode>
+        <brand>amul</brand>
+        <category>doooooooooood</category>
+        <mrp>50.0</mrp>
+        <name>chocolate</name>
+        <id>17</id>
     </productDatas>
 </productXmlRootElement>

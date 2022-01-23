@@ -57,4 +57,15 @@ public class BrandHelper {
 		}
 		return data;
 	}
+
+	public static void checkEmpty(UpdateBrandForm form) throws ApiException {
+		if(form.getBrand().isEmpty() || form.getCategory().isEmpty()) {
+			throw new ApiException("Brand and Category can not be empty or null");
+		}
+	}
+
+	public static void trimSpaces(UpdateBrandForm form) {
+		form.setBrand(form.getBrand().toLowerCase().trim());
+		form.setCategory(form.getCategory().toLowerCase().trim());
+	}
 }

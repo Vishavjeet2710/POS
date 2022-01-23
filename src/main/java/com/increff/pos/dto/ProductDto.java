@@ -70,6 +70,6 @@ public class ProductDto {
 		BrandPojo brandPojo = brandService.getCheckByBrandCategory(form.getBrand(),form.getCategory());
 		ProductPojo p = ProductHelper.convert(form);
 		p.setBrand_category(brandPojo.getId());
-		service.update(p);
+		service.update(p,form.getBrand(),form.getCategory());
 	}
 }

@@ -1,5 +1,7 @@
 package com.increff.pos.model;
 
+import java.text.DecimalFormat;
+
 public class SaleReportData {
 	private int quantity;
 	private double revenue;
@@ -18,7 +20,7 @@ public class SaleReportData {
 	}
 
 	public void setRevenue(double revenue) {
-		this.revenue = revenue;
+		this.revenue = roundTwoDecimals(revenue);
 	}
 
 	public String getCategory() {
@@ -28,5 +30,8 @@ public class SaleReportData {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+	private static double roundTwoDecimals(double d) {
+        DecimalFormat twoDecimals = new DecimalFormat("0.00");
+        return Double.valueOf(twoDecimals.format(d));
+	}
 }

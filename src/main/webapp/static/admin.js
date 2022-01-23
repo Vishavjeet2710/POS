@@ -11,6 +11,7 @@ function addUser(){
         success: function(response){
             console.log("User Created");
             getUserList();
+            resetForm("userForm");
         },
         error: handleAjaxError
     });
@@ -50,6 +51,7 @@ function updatePassowrd(){
             console.log("Password Updated");
             $('#updatePasswordModal').modal('toggle');
             getUserList();
+            resetForm("passwordUpdateForm");
         },
         error: handleAjaxError
     });
@@ -58,6 +60,7 @@ function updatePassowrd(){
 
 function updatePassowrdStore(id){
     userID=id;
+    resetForm("updatePasswordModal");
 }
 
 

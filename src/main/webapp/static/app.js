@@ -16,6 +16,10 @@ function handleAjaxError(response){
     alert(response.message);
 }
 
+function resetForm(val){
+    document.getElementById(val).reset();
+}
+
 function readFileData(file, callback){
     console.log("Reading File");
 	var config = {

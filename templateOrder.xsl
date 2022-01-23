@@ -14,9 +14,11 @@
 			</fo:layout-master-set>
 			<fo:page-sequence master-reference="simpleA4">
 				<fo:flow flow-name="xsl-region-body">
-					<fo:block>
+					<fo:block margin-bottom="1cm">
 						<fo:external-graphic
 							src="url(file:///D:/increff/repos/pos/logo.jpg)" />
+					</fo:block>
+					<fo:block>
 					</fo:block>
 					<fo:block  font-size="16pt"
 						font-weight="bold" space-after="5mm">

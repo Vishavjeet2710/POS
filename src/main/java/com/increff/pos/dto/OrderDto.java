@@ -113,30 +113,28 @@ public class OrderDto {
 		String startDateTime = OrderHelper.getStartDateTime(saleReportForm);
 		String endDateTime = OrderHelper.getEndDateTime(saleReportForm);
 		List<OrderPojo> list = orderService.getDateTime(startDateTime, endDateTime);
-		System.out.println("YES I was here"+list.size()+startDateTime+endDateTime);
 		List<SaleReportData> saleReportDatas = new ArrayList<SaleReportData>();
-		Map<Integer, Integer> Category_Quantity_Map = new HashMap<Integer, Integer>();
-		Map<Integer, Double> Category_Mrp_Map = new HashMap<Integer, Double>();
+		Map<String, Integer> Category_Quantity_Map = new HashMap<String, Integer>();
+		Map<String, Double> Category_Mrp_Map = new HashMap<String, Double>();
 		for(OrderPojo p : list) {
-			System.out.println("YES There is something");
 			List<OrderItemPojo> orderItemPojos = orderItemService.getByOrderIdBrandCategory(p.getId(), saleReportForm.getBrand(), saleReportForm.getCategory());
 			for(OrderItemPojo orderItemPojo : orderItemPojos) {
-				if(Category_Quantity_Map.containsKey(orderItemPojo.getProductId())) {
-					Category_Quantity_Map.put(orderItemPojo.getProductId(), Category_Quantity_Map.get(orderItemPojo.getProductId())+orderItemPojo.getQuantity());
-					Category_Mrp_Map.put(orderItemPojo.getProductId(), (Category_Mrp_Map.get(orderItemPojo.getProductId())+(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity())));
+				ProductPojo productPojo = productService.getCheck(orderItemPojo.getProductId());
+				BrandPojo brandPojo = brandService.getCheck(productPojo.getBrand_category());
+				if(Category_Quantity_Map.containsKey(brandPojo.getCategory())) {
+					Category_Quantity_Map.put(brandPojo.getCategory(), Category_Quantity_Map.get(brandPojo.getCategory())+orderItemPojo.getQuantity());
+					Category_Mrp_Map.put(brandPojo.getCategory(), (Category_Mrp_Map.get(brandPojo.getCategory())+(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity())));
 				}else {
-					Category_Quantity_Map.put(orderItemPojo.getProductId(), orderItemPojo.getQuantity());
-					Category_Mrp_Map.put(orderItemPojo.getProductId(),(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity()));
+					Category_Quantity_Map.put(brandPojo.getCategory(), orderItemPojo.getQuantity());
+					Category_Mrp_Map.put(brandPojo.getCategory(),(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity()));
 				}
 			}
 		}
-		for(Integer productId : Category_Quantity_Map.keySet()) {
+		for(String category: Category_Quantity_Map.keySet()) {
 			SaleReportData saleReportData = new SaleReportData();
-			ProductPojo productPojo = productService.get(productId);
-			BrandPojo brandPojo = brandService.getCheck(productPojo.getBrand_category());
-			saleReportData.setCategory(brandPojo.getCategory());
-			saleReportData.setQuantity(Category_Quantity_Map.get(productId));
-			saleReportData.setRevenue(Category_Mrp_Map.get(productId));
+			saleReportData.setCategory(category);
+			saleReportData.setQuantity(Category_Quantity_Map.get(category));
+			saleReportData.setRevenue(Category_Mrp_Map.get(category));
 			saleReportDatas.add(saleReportData);
 		}
 		SaleXmlRootElement saleXmlRootElement = new SaleXmlRootElement();

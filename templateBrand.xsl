@@ -14,7 +14,7 @@
 			</fo:layout-master-set>
 			<fo:page-sequence master-reference="simpleA4">
 				<fo:flow flow-name="xsl-region-body">
-					<fo:block font-size="16pt" font-weight="bold"
+					<fo:block font-size="16pt" font-weight="bold" text-align="center"
 						space-after="5mm">Brand
 					</fo:block>
 					<fo:block font-size="10pt" space-after="5mm" text-align="center">

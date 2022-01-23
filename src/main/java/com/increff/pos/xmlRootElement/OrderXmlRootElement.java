@@ -42,8 +42,8 @@ public class OrderXmlRootElement {
 	}
 
 	public void setDateTime(String string) {
-		date = string.substring(0, 9);
-		time = string.substring(11, 18);
+		date = string.substring(0, 10);
+		time = string.substring(11, 19);
 		this.dateTime = string;
 	}
 

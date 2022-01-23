@@ -45,8 +45,13 @@ public class OrderHelper {
 	}
 
 	public static String getEndDateTime(SaleReportForm saleReportForm) throws ApiException {
-		if(saleReportForm.getEndDateTime()==null) {
+		if(saleReportForm.getEndDateTime()==null || saleReportForm.getEndDateTime()=="") {
 			throw new ApiException("Select some end date time");
+		}
+		saleReportForm.setBrand(saleReportForm.getBrand().trim().toLowerCase());
+		saleReportForm.setCategory(saleReportForm.getCategory().trim().toLowerCase());
+		if(saleReportForm.getBrand()==null || saleReportForm.getBrand()=="") {
+			throw new ApiException("Please enter some brand");
 		}
 		saleReportForm.setBrand(saleReportForm.getBrand().trim().toLowerCase());
 		saleReportForm.setCategory(saleReportForm.getCategory().trim().toLowerCase());
@@ -57,7 +62,7 @@ public class OrderHelper {
 	}
 
 	public static String getStartDateTime(SaleReportForm saleReportForm) throws ApiException {
-		if(saleReportForm.getStartDateTime()==null) {
+		if(saleReportForm.getStartDateTime()==null || saleReportForm.getStartDateTime()=="") {
 			throw new ApiException("Select some start date time");
 		}
 		return saleReportForm.getStartDateTime();

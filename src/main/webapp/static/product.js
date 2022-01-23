@@ -10,6 +10,7 @@ function addProduct(){
         success: function(response){
             console.log("Product Created");
             getProductList(response);
+            resetForm("productForm");
         },
         error: function(){
             alert("Some error occurred while creating product");
@@ -46,6 +47,7 @@ function updateProduct(){
             console.log("Product Updated");
             $('#updateModal').modal('toggle');
             getProductList();
+            resetForm("productUpdateForm");
         },
         error: handleAjaxError
     });
@@ -136,6 +138,7 @@ function displayUploadData(){
 }
 
 function editProduct(id){
+    resetForm("productUpdateForm");
     var ele = document.getElementById('localID_'+id+'');
     console.log(ele);
     document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;
@@ -159,7 +162,7 @@ function displayProductList(list){
         +'<td>'+p.brand+'</td>'
         +'<td>'+p.category+'</td>'
         +'<td>'+p.name+'</td>'
-        +'<td>'+p.mrp+'</td>'
+        +'<td>'+p.mrp.toFixed(2)+'</td>'
         +'<td class="d-flex justify-content-end"> <button type="button" class="btn btn-secondary btn-sm float-right" onclick="editProduct(\'' + p.id + '\')" >Edit</button> </td>'
         +'</tr>';
         $tbody.append(row);

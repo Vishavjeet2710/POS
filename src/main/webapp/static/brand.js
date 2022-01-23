@@ -10,6 +10,7 @@ function addBrand(){
         success: function(response){
             console.log("Brand Created");
             getBrandList();
+            resetForm("brandForm");
         },
         error: handleAjaxError
     });
@@ -42,6 +43,7 @@ function updateBrand(){
             console.log("Brand Updated");
             $('#updateModal').modal('toggle');
             getBrandList();
+            resetForm("brandUpdateForm");
         },
         error: handleAjaxError
     });
@@ -132,6 +134,7 @@ function displayUploadData(){
 }
 
 function editBrand(id){
+    resetForm("brandUpdateForm");
     var ele = document.getElementById('localID_'+id+'');
     console.log(ele);
     document.getElementById("exBrandInput").value = ele.cells[1].innerHTML;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <orderXmlRootElement>
-    <date>2022-01-1</date>
+    <date>2022-01-18</date>
     <dateTime>2022-01-18T12:03:20.174542</dateTime>
     <orderId>1</orderId>
     <orderItemDatas>
@@ -11,5 +11,5 @@
         <id>1</id>
         <sellingPrice>50.0</sellingPrice>
     </orderItemDatas>
-    <time>12:03:2</time>
+    <time>12:03:20</time>
 </orderXmlRootElement>

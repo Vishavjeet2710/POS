@@ -1,5 +1,7 @@
 package com.increff.pos.helper;
 
+import java.text.DecimalFormat;
+
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
@@ -10,16 +12,21 @@ public class ProductHelper {
 		ProductData d = new ProductData();
 		d.setBarcode(p.getBarcode());
 		d.setName(p.getName());
-		d.setMrp(p.getMrp());
+		d.setMrp(roundTwoDecimals(p.getMrp()));
 		d.setId(p.getId());
 		return d;
 	}
 
+	private static double roundTwoDecimals(double d) {
+        DecimalFormat twoDecimals = new DecimalFormat("0.00");
+        return Double.valueOf(twoDecimals.format(d));
+	}
+	
 	public static ProductPojo convert(ProductForm form) {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(form.getBarcode());
 		p.setName(form.getName());
-		p.setMrp(form.getMrp());
+		p.setMrp(roundTwoDecimals(form.getMrp()));
 		return p;
 	}
 	

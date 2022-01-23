@@ -2,7 +2,7 @@
 <brandXmlRootElement>
     <brandDatas>
         <brand>amul</brand>
-        <category>woooooowwww</category>
+        <category>doooooooooood</category>
         <id>1</id>
     </brandDatas>
     <brandDatas>
@@ -79,5 +79,35 @@
         <brand>amul</brand>
         <category>milk</category>
         <id>16</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>reebok</brand>
+        <category>shoes</category>
+        <id>17</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>amul</brand>
+        <category>diary</category>
+        <id>18</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>puma</brand>
+        <category>shoes</category>
+        <id>19</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>guess</brand>
+        <category>jacket</category>
+        <id>20</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>lakme</brand>
+        <category>cosmetics</category>
+        <id>21</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>teeling</brand>
+        <category>irish whiskey</category>
+        <id>22</id>
     </brandDatas>
 </brandXmlRootElement>

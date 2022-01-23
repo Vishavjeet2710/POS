@@ -1,6 +1,7 @@
 var rowCount;
 var update=false;
 var upload=false;
+var edit=false;
 var updateBarcode=0;
 var exQuantity=0;
 function addOrderItem(json){
@@ -39,6 +40,7 @@ function addOrderItemDisplay(){
         success: function(response){
             console.log(response);
             getOrderItemList(response);
+            resetForm("orderItemForm");
         },
         error: handleAjaxError
     });
@@ -106,6 +108,7 @@ function editOrderItemListModalForUpdate(requiredQuantity){
     var existing = document.getElementById('localID_'+updateBarcode+'');
     existing.cells.item(2).innerHTML = parseInt(requiredQuantity);
     existing.cells.item(4).innerHTML = '<button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(\'' + updateBarcode + '\')">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + updateBarcode + '\')">Delete</button>';
+    edit=false;
 }
 
 function updateOrderItemModal(barcode){
@@ -131,6 +134,11 @@ function getOrderItemList(list){
             editOrderItemListModalForUpdate(exQuantity);
             update=false;
             return false;
+        }
+        if(document.getElementById('quantityUpdateInput').value===""){
+            editOrderItemListModalForUpdate(exQuantity);
+            update=false;
+            return false;   
         }
         editOrderItemListModalForUpdate(requiredQuantityForUpdate);
         update = false;
@@ -186,10 +194,11 @@ function deleteOrderItemDisplay(barcode){
 }
 
 function editOrderItemDisplay(barcode){
+    edit=true;
     var ele = document.getElementById('localID_'+barcode+'');
     exQuantity = ele.cells.item(2).innerHTML;
     console.log(exQuantity);
-    ele.cells.item(2).innerHTML = '<form id="orderItemForm"><div class="form-row"><div class="col-12"><input type="text" class="form-control " name="quantity" placeholder="Quantity" id="quantityUpdateInput"></div></div></form>';
+    ele.cells.item(2).innerHTML = '<form id="orderItemForm"><div class="form-row"><div class="col-12"><input type="text" class="form-control " name="quantity" placeholder="'+exQuantity+'" id="quantityUpdateInput"></div></div></form>';
     ele.cells.item(4).innerHTML = '<button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="updateOrderItemModal(\'' + barcode + '\')">Update</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + barcode + '\')">Delete</button>';
 }
 
@@ -203,7 +212,7 @@ function displayOrderItemListModal(list){
     +'<th scope="row" name="id">'+rowCount+'</th>'
     +'<td name="barcode">'+b.barcode+'</td>'
     +'<td name="quantity">'+ quantityHTML +'</td>'
-    +'<td name="mrp">'+b.mrp+'</td>'
+    +'<td name="mrp">'+b.mrp.toFixed(2)+'</td>'
     +'<td><button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="editOrderItemDisplay(\'' + b.barcode + '\')">Edit</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + b.barcode + '\')">Delete</button></td>'
     +'</tr>';
     console.log(rowHTML);
@@ -212,6 +221,10 @@ function displayOrderItemListModal(list){
 }
 
 function createOrder(){
+    if(edit==true){
+        alert("Please edit the order first");
+        return false;
+    }
     console.log("Creating Order");
     var $form = $("#addOrder");
     var json = toJson($form);
@@ -253,7 +266,11 @@ function getOrderList(){
 function getOrder(list){
     for(e in list){
         console.log(list[e]);
-        displayOrderItem(list[e]);
+        if(Object.keys(list[e]).length==0){
+
+        }else{
+            displayOrderItem(list[e]);
+        }
     }
 }
 
@@ -261,14 +278,14 @@ function displayOrderItem(list){
     console.log("Printing Order");
     var $tbody=$('#orderTableMainBody');
     console.log(list);
-    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">Serial No.</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
+    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">S/N</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
     for(i in list){
         var b = list[i];
         var row ='<tr>'
         +'<th scope="row">'+ String(parseInt(i)+1)+'</th>'
         +'<td>'+b.barcode+'</td>'
         +'<td>'+b.quantity+'</td>'
-        +'<td>'+b.mrp+'</td>'
+        +'<td>'+b.mrp.toFixed(2)+'</td>'
         +'</tr>';
         innerTable=innerTable+row;
     }
@@ -389,10 +406,11 @@ function downloadSaleReport(){
         link.download = "SaleReport.pdf";
         link.click();
     },
-    error:function(respone){
-        console.log(respone);
+    error: function(response){
+        alert(JSON.stringify(response));
     }
     });
+    resetForm("saleReportForm");
 }
 
 function downloadInvoice(orderId){

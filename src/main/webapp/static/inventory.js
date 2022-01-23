@@ -1,4 +1,8 @@
 function addInventory(){
+    if(document.getElementById("quantityInput").value===""){
+        alert("Please enter some quantity");
+        return false;
+    }
     console.log("Adding Inventory");
     var $form = $("#inventoryForm");
     var json = toJson($form);
@@ -10,6 +14,7 @@ function addInventory(){
         success: function(response){
             console.log("Inventory Created");
             getInventoryList();
+            resetForm("inventoryForm");
         },
         error: handleAjaxError
     });
@@ -31,6 +36,10 @@ function getInventoryList(){
 }
 
 function updateInventory(){
+    if(document.getElementById("quantityUpdateInput").value===""){
+        alert("Please enter some quantity");
+        return false;
+    }
     console.log("Updating Inventory");
     var $form = $("#inventoryUpdateForm");
     var json = toJson($form);
@@ -43,6 +52,7 @@ function updateInventory(){
             console.log("Inventory Updated");
             $('#updateModal').modal('toggle');
             getInventoryList();
+            resetForm("inventoryUpdateForm");
         },
         error: handleAjaxError
     });
@@ -133,6 +143,7 @@ function displayUploadData(){
 }
 
 function editInventory(id){
+    resetForm("inventoryUpdateForm");
     var ele = document.getElementById('localID_'+id+'');
     console.log(ele);
     document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;

@@ -12,7 +12,7 @@
     </inventoryDatas>
     <inventoryDatas>
         <barcode>barcodeone</barcode>
-        <quantity>10</quantity>
+        <quantity>1</quantity>
         <id>9</id>
     </inventoryDatas>
     <inventoryDatas>
@@ -29,5 +29,10 @@
         <barcode>1@#115</barcode>
         <quantity>30</quantity>
         <id>8</id>
+    </inventoryDatas>
+    <inventoryDatas>
+        <barcode>1@#934</barcode>
+        <quantity>4</quantity>
+        <id>14</id>
     </inventoryDatas>
 </inventoryXmlRootElement>

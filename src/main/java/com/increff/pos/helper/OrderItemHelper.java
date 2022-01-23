@@ -1,5 +1,7 @@
 package com.increff.pos.helper;
 
+import java.text.DecimalFormat;
+
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
@@ -12,8 +14,13 @@ public class OrderItemHelper {
 		d.setId(p.getId());
 		d.setOrderId(p.getOrderId());
 		d.setQuantity(p.getQuantity());
-		d.setSellingPrice(p.getSellingPrice());
+		d.setSellingPrice(roundTwoDecimals(p.getSellingPrice()));
 		return d;
+	}
+	
+	private static double roundTwoDecimals(double d) {
+        DecimalFormat twoDecimals = new DecimalFormat("0.00");
+        return Double.valueOf(twoDecimals.format(d));
 	}
 	
 	public static OrderItemPojo convert(OrderItemForm form) {
@@ -24,7 +31,7 @@ public class OrderItemHelper {
 	}
 	
 	public static void setSellingPrice(OrderItemPojo p,double sellingPrice) {
-		p.setSellingPrice(sellingPrice);
+		p.setSellingPrice(roundTwoDecimals(sellingPrice));
 	}
 	
 	public static void updateInventory(OrderItemPojo p,InventoryPojo inventoryPojo) throws ApiException {

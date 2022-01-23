@@ -27,7 +27,7 @@ public class BrandService {
 		//ID updates only when it inserts into db
 		BrandPojo ex = dao.selectByCategoryBrand(p.getCategory(), p.getBrand());
 		if(ex!=null) {
-			throw new ApiException("Brand with given brand and category already exists, brand"+ p.getBrand()+ " and category "+ p.getCategory());
+			throw new ApiException("Brand with given brand and category already exists, brand :"+ p.getBrand()+ " and category :"+ p.getCategory());
 		}
 		add(p);
 	}
@@ -59,6 +59,10 @@ public class BrandService {
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(BrandPojo p_ex, BrandPojo p) throws ApiException {
 		BrandPojo ex = getCheckByBrandCategory(p_ex.getBrand(),p_ex.getCategory());
+		BrandPojo ex2 = dao.selectByCategoryBrand(p.getCategory(), p.getBrand());
+		if(ex2!=null) {
+			throw new ApiException("Brand with given brand and category already exists, brand :"+ p.getBrand()+ " and category :"+ p.getCategory());
+		}
 		ex.setCategory(p.getCategory());
 		ex.setBrand(p.getBrand());
 		dao.update(ex.getId(), p);

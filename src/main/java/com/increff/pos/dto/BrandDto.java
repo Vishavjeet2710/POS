@@ -29,6 +29,7 @@ public class BrandDto {
 	public void add(BrandForm form) throws ApiException {
 		BrandHelper.checkEmpty(form);
 		BrandHelper.trimSpaces(form);
+		BrandHelper.checkEmpty(form);
 		BrandPojo p = BrandHelper.convert(form);
 		service.addCheck(p);
 		return;
@@ -47,6 +48,9 @@ public class BrandDto {
 	
 	@Transactional(rollbackOn = Exception.class)
 	public void update(UpdateBrandForm form) throws  ApiException {
+		BrandHelper.checkEmpty(form);
+		BrandHelper.trimSpaces(form);
+		BrandHelper.checkEmpty(form);
 		BrandPojo p = BrandHelper.convertUpdateCurr(form);
 		BrandPojo p_ex = BrandHelper.convertUpdateEx(form);
 		service.update(p_ex,p);
