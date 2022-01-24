@@ -31,8 +31,8 @@ public class ProductHelper {
 	}
 	
 	public static void checkNegativeMrp(ProductForm form) throws ApiException {
-		if(form.getMrp()<0) {
-			throw new ApiException("Mrp or BrandCategory can not be negative");
+		if(form.getMrp()<0.0) {
+			throw new ApiException("Mrp can not be negative");
 		}		
 	}
 

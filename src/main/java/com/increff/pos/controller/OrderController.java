@@ -19,8 +19,6 @@ import com.increff.pos.model.ApiException;
 import com.increff.pos.model.OrderFormPost;
 
 import com.increff.pos.model.OrderItemData;
-import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.OrderPostReturn;
 import com.increff.pos.model.SaleReportForm;
 
 import io.swagger.annotations.Api;
@@ -36,16 +34,8 @@ public class OrderController {
 	
 	@ApiOperation(value = "Add an Order")
 	@PostMapping(value = "")
-	public OrderPostReturn addOrder(@RequestBody OrderFormPost form) throws ApiException {
-		OrderPostReturn orderPostReturn = new OrderPostReturn();
-		orderPostReturn.setId(orderDto.addOrder(form));
-		return orderPostReturn;
-	}
-
-	@ApiOperation(value = "Add OrderItem")
-	@PostMapping(value = "/single")
-	public void addOrderItem(@RequestBody OrderItemForm form) throws ApiException {
-		orderDto.addOrderItem(form);
+	public void addOrder(@RequestBody OrderFormPost form) throws ApiException {
+		orderDto.addOrder(form);
 	}
 	
 	@ApiOperation(value = "Get an Order")

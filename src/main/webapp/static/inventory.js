@@ -3,6 +3,11 @@ function addInventory(){
         alert("Please enter some quantity");
         return false;
     }
+    if(parseInt(document.getElementById("quantityInput").value)==null || parseInt(document.getElementById("quantityInput").value)==NaN){
+        alert("Please Enter Some valid Quantity");
+        return false;
+    }
+    console.log(parseInt(document.getElementById("quantityInput").value));
     console.log("Adding Inventory");
     var $form = $("#inventoryForm");
     var json = toJson($form);
@@ -147,6 +152,7 @@ function editInventory(id){
     var ele = document.getElementById('localID_'+id+'');
     console.log(ele);
     document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;
+    document.getElementById("quantityUpdateInput").value = ele.cells[2].innerHTML;
     $('#updateModal').modal('toggle');
 }
 

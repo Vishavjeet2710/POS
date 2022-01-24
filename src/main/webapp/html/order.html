@@ -137,7 +137,7 @@
                   &nbsp;
                   <div class="form-row">
                     <div>
-                      <h5>&nbsp;Barcode</h5>
+                      <h5>&nbsp;Brand</h5>
                     </div>
                   </div>
                   <div class="form-row">
@@ -184,7 +184,7 @@
                           <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
                       </div>
                       <div class="col-5">
-                          <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput">
+                          <input type="text" class="form-control" name="quantity" onkeypress="return isIntegerKey(event)" placeholder="Quantity" id="quantityInput">
                       </div>
                       <div class="col-2">
                           <button type="submit" class="btn btn-primary mb-2" id="addOrderItem">Add</button>

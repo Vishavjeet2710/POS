@@ -110,4 +110,14 @@
         <category>irish whiskey</category>
         <id>22</id>
     </brandDatas>
+    <brandDatas>
+        <brand>bourbonn</brand>
+        <category>biscuits</category>
+        <id>23</id>
+    </brandDatas>
+    <brandDatas>
+        <brand>puma</brand>
+        <category>clothes</category>
+        <id>24</id>
+    </brandDatas>
 </brandXmlRootElement>

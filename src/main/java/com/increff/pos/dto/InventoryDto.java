@@ -49,6 +49,7 @@ public class InventoryDto {
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public InventoryBarcodeData getByBarcode(String barcode) throws ApiException {
+		InventoryHelper.checkBarcode(barcode);
 		ProductPojo productPojo =	productService.getCheckByBarcode(barcode);
 		InventoryPojo p = service.getCheck(productPojo.getId());
 		InventoryBarcodeData data = new InventoryBarcodeData();

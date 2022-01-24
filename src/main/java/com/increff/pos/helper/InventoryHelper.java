@@ -23,5 +23,16 @@ public class InventoryHelper {
 		if(form.getQuantity()<0) {
 			throw new ApiException("Inventory Quantity can't be negative");
 		}
+		form.setBarcode(form.getBarcode().trim());
+		if(form.getBarcode()=="" || form.getBarcode()==null || form.getBarcode().isEmpty()) {
+			throw new ApiException("Barcode can not be empty or null");
+		}
+	}
+
+	public static void checkBarcode(String barcode)throws ApiException{
+		barcode=barcode.trim();
+		if(barcode=="" || barcode==null || barcode.isEmpty()) {
+			throw new ApiException("Barcode can not be empty or null");
+		}
 	}
 }

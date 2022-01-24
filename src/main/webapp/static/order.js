@@ -4,10 +4,10 @@ var upload=false;
 var edit=false;
 var updateBarcode=0;
 var exQuantity=0;
-function addOrderItem(json){
+function addOrder(json){
     console.log("Adding Inventory to Backend");
     $.ajax({
-        url: '../api/order/single',
+        url: '../api/order',
         type: 'POST',
         data: json,
         contentType:'application/json; charset=utf-8',
@@ -16,6 +16,7 @@ function addOrderItem(json){
         },
         error: handleAjaxError
     });
+    getOrderList();
     return false;
 }
 
@@ -47,24 +48,25 @@ function addOrderItemDisplay(){
     return false;
 }
 
-function addOrderItemList(list){
+function addOrderItemList(){
     var table = document.getElementById('orderItemTableAdd');
     if(table.rows.length==1){
         alert("Please Add some products first");
         return false;
     }
+    var jsonObjectTotal={ orderItemForms: [] };
     for(var i =1,row;row = table.rows[i];i++){
          var col = row.cells;
          var jsonObj = {
             barcode: col[1].innerHTML,
             quantity: col[2].innerHTML,
             mrp: col[3].innerHTML,
-            orderId: list.id
            }
-        var json = JSON.stringify(jsonObj);
-        console.log(json);
-        addOrderItem(json);
+        jsonObjectTotal.orderItemForms.push(jsonObj);
     }
+    var json = JSON.stringify(jsonObjectTotal);
+    console.log(json);
+    addOrder(json);
 }
 
 function checkExisting(){
@@ -183,6 +185,7 @@ function getOrderItemList(list){
 function resetOrderItemTable(){
     console.log("Resetting Table");
     rowCount=0;
+    resetForm("orderItemForm");
     var $tbody=$('#orderItemTableAdd').find('tbody');
     $tbody.empty();
 }
@@ -198,7 +201,7 @@ function editOrderItemDisplay(barcode){
     var ele = document.getElementById('localID_'+barcode+'');
     exQuantity = ele.cells.item(2).innerHTML;
     console.log(exQuantity);
-    ele.cells.item(2).innerHTML = '<form id="orderItemForm"><div class="form-row"><div class="col-12"><input type="text" class="form-control " name="quantity" placeholder="'+exQuantity+'" id="quantityUpdateInput"></div></div></form>';
+    ele.cells.item(2).innerHTML = '<form id="orderItemForm"><div class="form-row"><div class="col-12"><input type="text" class="form-control " name="quantity" onkeypress="return isIntegerKey(event)" placeholder="'+exQuantity+'" id="quantityUpdateInput"></div></div></form>';
     ele.cells.item(4).innerHTML = '<button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="updateOrderItemModal(\'' + barcode + '\')">Update</button> | <button type="button" class="btn btn-secondary mb-2 btn-sm" onclick="deleteOrderItemDisplay(\'' + barcode + '\')">Delete</button>';
 }
 
@@ -225,22 +228,7 @@ function createOrder(){
         alert("Please edit the order first");
         return false;
     }
-    console.log("Creating Order");
-    var $form = $("#addOrder");
-    var json = toJson($form);
-    $.ajax({
-        url: '../api/order',
-        type: 'POST',
-        data: json,
-        contentType:'application/json; charset=utf-8',
-        success: function(response){
-            console.log("Order Created");
-            $('#createOrderModal').modal('toggle');
-            addOrderItemList(response);
-            getOrderList();
-        },
-        error: handleAjaxError
-    });
+    addOrderItemList();
     return false;
 }
 
