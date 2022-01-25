@@ -1,38 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <inventoryXmlRootElement>
     <inventoryDatas>
-        <barcode>1@#113</barcode>
-        <quantity>75</quantity>
-        <id>1</id>
-    </inventoryDatas>
-    <inventoryDatas>
-        <barcode>1@2!23</barcode>
-        <quantity>90</quantity>
-        <id>2</id>
-    </inventoryDatas>
-    <inventoryDatas>
-        <barcode>barcodeone</barcode>
-        <quantity>1</quantity>
-        <id>9</id>
-    </inventoryDatas>
-    <inventoryDatas>
-        <barcode>barcodetwo</barcode>
-        <quantity>20</quantity>
-        <id>10</id>
-    </inventoryDatas>
-    <inventoryDatas>
-        <barcode>barcodethree</barcode>
-        <quantity>30</quantity>
-        <id>11</id>
-    </inventoryDatas>
-    <inventoryDatas>
         <barcode>1@#115</barcode>
-        <quantity>30</quantity>
-        <id>8</id>
-    </inventoryDatas>
-    <inventoryDatas>
-        <barcode>1@#934</barcode>
-        <quantity>4</quantity>
-        <id>14</id>
+        <quantity>0</quantity>
+        <id>1</id>
     </inventoryDatas>
 </inventoryXmlRootElement>

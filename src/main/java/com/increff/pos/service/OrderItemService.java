@@ -57,7 +57,7 @@ public class OrderItemService {
 	
 	@Transactional
 	public List<OrderItemPojo> getByOrderIdBrandCategory(int orderId,String brand,String category){
-		if(category==null || category=="") {
+		if(category.isEmpty() || category==null) {
 			return dao.selectByOrderIdBrand(orderId, brand);
 		}
 		return dao.selectByOrderIdBrandCategory(orderId,brand,category);

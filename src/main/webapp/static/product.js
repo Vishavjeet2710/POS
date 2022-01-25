@@ -1,4 +1,12 @@
 function addProduct(){
+    if(document.getElementById("brandInput").value=="Choose Brand..." || document.getElementById("categoryInput").disabled==true || document.getElementById("categoryInput").value=="Choose Category..." ){
+        alert("Please choose brand and category first");
+        return false;
+    }
+    if(document.getElementById("mrpInput").value===""){
+        alert("Please enter some Price");
+        return false;
+    }
     console.log("Adding Product");
     var $form = $('#productForm');
     var json = toJson($form);
@@ -12,12 +20,161 @@ function addProduct(){
             getProductList(response);
             resetForm("productForm");
         },
-        error: function(){
-            alert("Some error occurred while creating product");
+        error: handleAjaxError
+    });
+    return false;
+}
+
+function getBrandOptions(){
+    $.ajax({
+        url: '../api/brand',
+        type: 'GET',
+        success: function(response){
+            console.log("Brand list fetched");
+            displayBrandOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
         }
     });
     return false;
 }
+
+function displayBrandOptions(list){
+    var $select=$('#brandOptions').find('select');;
+    $select.empty();
+    console.log("Printing Brand options");
+    var brand = [];
+    for(i in list){
+        brand.push(list[i].brand);
+    }
+    brand = [... new Set(brand)];
+    $select.append('<option selected>'+ "Choose Brand..." +'</option>');
+    for(i in brand){
+        var row ='<option>'+ brand[i] +'</option>';
+        $select.append(row);
+    }
+}
+
+function getCategoryOptions(val){
+    if(val=="Choose Brand..."){
+        var $select=$('#categoryOptions').find('select');
+        $select.empty();
+        $select.append('<option selected>'+ "Choose Category..." +'</option>');
+        document.getElementById("categoryInput").disabled = true;
+        return false;
+    }
+    var $form = {brand : val};
+    console.log($form);
+    var json = JSON.stringify($form);
+    $.ajax({
+        url: '../api/brand/fetch-categories',
+        type: 'PUT',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log("Category list fetched");
+            displayCategoryOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
+        }
+    });
+    return false;
+}
+
+function displayCategoryOptions(list){
+    document.getElementById("categoryInput").disabled = false;
+    var $select=$('#categoryOptions').find('select');
+    $select.empty();
+    console.log("Printing Brand options");
+    $select.append('<option selected>'+ "Choose Category..." +'</option>');
+    for(i in list){
+        var p = list[i];
+        console.log("YES");
+        console.log(p);
+        var row ='<option>'+ p.category +'</option>';
+        $select.append(row);
+    }
+}
+
+function getBrandUpdateOptions(){
+    $.ajax({
+        url: '../api/brand',
+        type: 'GET',
+        success: function(response){
+            console.log("Brand list fetched");
+            displayBrandUpdateOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
+        }
+    });
+    return false;
+}
+
+function displayBrandUpdateOptions(list){
+    var $select=$('#brandUpdateOptions').find('select');;
+    $select.empty();
+    console.log("Printing Brand options");
+    var brand = [];
+    for(i in list){
+        brand.push(list[i].brand);
+    }
+    brand = [... new Set(brand)];
+    $select.append('<option selected>'+ "Choose Brand..." +'</option>');
+    for(i in brand){
+        var row ='<option>'+ brand[i] +'</option>';
+        $select.append(row);
+    }
+}
+
+function getCategoryUpdateOptions(val){
+    if(val=="Choose Brand..."){
+        var $select=$('#categoryUpdateOptions').find('select');
+        $select.empty();
+        $select.append('<option selected>'+ "Choose Category..." +'</option>');
+        document.getElementById("categoryUpdateInput").disabled = true;
+        return false;
+    }
+    var $form = {brand : val};
+    console.log($form);
+    var json = JSON.stringify($form);
+    $.ajax({
+        url: '../api/brand/fetch-categories',
+        type: 'PUT',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log("Category list fetched");
+            displayCategoryUpdateOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
+        }
+    });
+    return false;
+}
+
+function displayCategoryUpdateOptions(list){
+    document.getElementById("categoryUpdateInput").disabled = false;
+    var $select=$('#categoryUpdateOptions').find('select');
+    $select.empty();
+    console.log("Printing category options");
+    $select.append('<option selected>'+ "Choose Category..." +'</option>');
+    for(i in list){
+        var p = list[i];
+        console.log("YES");
+        console.log(p);
+        var row ='<option>'+ p.category +'</option>';
+        $select.append(row);
+    }
+    if(ResetUpdateCategory==true){
+        document.getElementById("categoryUpdateInput").value = updateCategoryVal;
+        ResetUpdateCategory=false;
+    }
+}
+
 
 function getProductList(){
     $.ajax({
@@ -35,6 +192,14 @@ function getProductList(){
 }
 
 function updateProduct(){
+    if(document.getElementById("brandUpdateInput").value=="Choose Brand..." || document.getElementById("categoryUpdateInput").disabled==true || document.getElementById("categoryUpdateInput").value=="Choose Category..." ){
+        alert("Please choose brand and category first");
+        return false;
+    }
+    if(document.getElementById("mrpUpdateInput").value===""){
+        alert("Please enter some Price");
+        return false;
+    }
     console.log("Updating Product");
     var $form = $("#productUpdateForm");
     var json = toJson($form);
@@ -137,17 +302,24 @@ function displayUploadData(){
     resetUploadDialog();
 }
 
+ResetUpdateCategory = false;
+updateCategoryVal = "";
 function editProduct(id){
     resetForm("productUpdateForm");
     var ele = document.getElementById('localID_'+id+'');
     console.log(ele);
     document.getElementById("barcodeUpdateInput").value = ele.cells[1].innerHTML;
+    document.getElementById("brandUpdateInput").value = ele.cells[2].innerHTML;
+    document.getElementById("nameUpdateInput").value = ele.cells[4].innerHTML;
+    document.getElementById("mrpUpdateInput").value = ele.cells[5].innerHTML;
+    ResetUpdateCategory=true;
+    updateCategoryVal = ele.cells[3].innerHTML;
+    getCategoryUpdateOptions(ele.cells[2].innerHTML);
+    
     $('#updateModal').modal('toggle');
 }
 
 function displayProductList(list){
-    console.log("Printing Products");
-    console.log("Printing Products");
     var $tbody=$('#productTable').find('tbody');
     $tbody.empty();
     console.log("Printing Products");
@@ -210,3 +382,5 @@ function init(){
 
 $(document).ready(init)
 $(document).ready(getProductList);
+$(document).ready(getBrandOptions);
+$(document).ready(getBrandUpdateOptions);

@@ -2,7 +2,7 @@ package com.increff.pos.model;
 
 import java.util.List;
 
-public class OrderFormPost {
+public class OrderForm {
 	private List<OrderItemForm> orderItemForms;
 
 	public List<OrderItemForm> getOrderItemForms() {

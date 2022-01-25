@@ -7,14 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(indexes = {
 		@Index(name = "uniqueCategoryBrandPair", columnList = "brand, category", unique = true)
-},
-uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"category","brand"})
 })
 public class BrandPojo {
 	@Id

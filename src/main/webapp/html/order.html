@@ -141,8 +141,10 @@
                     </div>
                   </div>
                   <div class="form-row">
-                      <div class="col">
-                          <input type="text" class="form-control" name="brand" placeholder="Brand" id="brandSaleReportInput">
+                      <div class="col" id="brandOptions">
+                        <select  class="form-control" name="brand" onchange="getCategorySaleReportOptions(this.value)" id="brandSaleReportInput">
+                          <option selected>Choose Brand...</option>
+                        </select>
                       </div>
                   </div>
                   &nbsp;
@@ -152,8 +154,10 @@
                     </div>
                   </div>
                   <div class="form-row">
-                      <div class="col">
-                        <input type="text" class="form-control" name="category" placeholder="Category" id="categorySaleReportInput">
+                      <div class="col" id="categoryOptions">
+                        <select  class="form-control" name="category" id="categorySaleReportInput" disabled>
+                          <option selected>Choose Category...</option>
+                        </select>
                       </div>
                   </div>
                 </form>

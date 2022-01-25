@@ -61,7 +61,7 @@ public class ProductService {
 	
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(ProductPojo p,String brand,String category) throws ApiException {
-		ProductPojo ex2 = dao.selectByBrandCategoryName(p.getName(),brand,category);
+		ProductPojo ex2 = dao.selectByBrandCategoryName(brand,category,p.getName());
 		if(ex2!=null) {
 			throw new ApiException("Product with given brand, category and name already exists");
 		}

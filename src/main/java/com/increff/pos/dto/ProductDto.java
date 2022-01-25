@@ -28,7 +28,7 @@ public class ProductDto {
 	private BrandService brandService;
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void add(ProductForm form) throws  ApiException {
+	public int add(ProductForm form) throws  ApiException {
 		ProductHelper.checkEmpty(form);
 		ProductHelper.trimSpaces(form);
 		ProductHelper.checkNegativeMrp(form);
@@ -36,6 +36,7 @@ public class ProductDto {
 		ProductPojo p = ProductHelper.convert(form);
 		p.setBrand_category(brandPojo.getId());
 		service.addCheck(p);
+		return p.getId();
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)

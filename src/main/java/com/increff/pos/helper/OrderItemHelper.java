@@ -12,7 +12,6 @@ public class OrderItemHelper {
 	public static OrderItemData convert(OrderItemPojo p) {
 		OrderItemData d = new OrderItemData();
 		d.setId(p.getId());
-		d.setOrderId(p.getOrderId());
 		d.setQuantity(p.getQuantity());
 		d.setSellingPrice(roundTwoDecimals(p.getSellingPrice()));
 		return d;
@@ -25,7 +24,6 @@ public class OrderItemHelper {
 	
 	public static OrderItemPojo convert(OrderItemForm form) {
 		OrderItemPojo p = new OrderItemPojo();
-		p.setOrderId(form.getOrderId());
 		p.setQuantity(form.getQuantity());
 		return p;
 	}

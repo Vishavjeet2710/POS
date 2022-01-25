@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.OrderData;
-import com.increff.pos.model.OrderFormPost;
+import com.increff.pos.model.OrderForm;
 import com.increff.pos.model.OrderFormUpdate;
 import com.increff.pos.model.SaleReportForm;
 import com.increff.pos.model.TimeData;
@@ -19,7 +19,7 @@ public class OrderHelper {
 		return d;
 	}
 
-	public static OrderPojo convert(OrderFormPost form) {
+	public static OrderPojo convert(OrderForm form) {
 		TimeData timeData = new TimeData();
 		OrderPojo p = new OrderPojo();
 		p.setTime(timeData.getTime());

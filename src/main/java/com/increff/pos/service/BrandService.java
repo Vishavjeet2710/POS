@@ -18,8 +18,9 @@ public class BrandService {
 	public BrandDao dao;
 
 	@Transactional
-	public void add(BrandPojo p) {
+	public int add(BrandPojo p) {
 		dao.insert(p);
+		return p.getId();
 	}
 	
 	@Transactional(rollbackOn = ApiException.class)
@@ -54,6 +55,11 @@ public class BrandService {
 	@Transactional
 	public List<BrandPojo> getAll() {
 		return dao.selectAll();
+	}
+	
+	@Transactional
+	public List<BrandPojo> getByBrand(String brand) {
+		return dao.selectByBrand(brand);
 	}
 
 	@Transactional(rollbackOn = ApiException.class)

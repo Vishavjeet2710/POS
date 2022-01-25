@@ -18,7 +18,8 @@ import com.increff.pos.download.SaleDownload;
 import com.increff.pos.helper.OrderHelper;
 import com.increff.pos.helper.OrderItemHelper;
 import com.increff.pos.model.ApiException;
-import com.increff.pos.model.OrderFormPost;
+import com.increff.pos.model.OrderData;
+import com.increff.pos.model.OrderForm;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.SaleReportData;
@@ -56,16 +57,16 @@ public class OrderDto {
 	private InventoryService inventoryService;
 	
 	@Transactional(rollbackOn = ApiException.class)
-	public void addOrder(OrderFormPost form) throws ApiException {
+	public int addOrder(OrderForm form) throws ApiException {
 		int orderId=  orderService.addCheck(OrderHelper.convert(form));
 		List<OrderItemForm> orderItemForms = form.getOrderItemForms();
 		for(OrderItemForm orderItemForm : orderItemForms) {
-			orderItemForm.setOrderId(orderId);
 			ProductPojo productPojo = productService.getCheckByBarcode(orderItemForm.getBarcode());
 			orderService.getCheck(orderId);
 			InventoryPojo inventoryPojo = inventoryService.getCheck(productPojo.getId());
 			
 			OrderItemPojo p = OrderItemHelper.convert(orderItemForm);
+			p.setOrderId(orderId);
 			p.setProductId(productPojo.getId());
 			OrderItemHelper.setSellingPrice(p,productPojo.getMrp());
 			
@@ -73,13 +74,14 @@ public class OrderDto {
 			inventoryService.update(productPojo.getId(), inventoryPojo);
 			orderItemService.addCheck(p);
 		}
+		return orderId;
 	}
 	
 	@Transactional
-	public List<List<OrderItemData>> getAll() throws ApiException{
-		List<OrderPojo> orderDatas = orderService.getAll();
-		List<List<OrderItemData>> results = new ArrayList<List<OrderItemData>>();
-		for(OrderPojo p : orderDatas) {
+	public List<OrderData> getAll() throws ApiException{
+		List<OrderPojo> orderPojos = orderService.getAll();
+		List<OrderData> results = new ArrayList<OrderData>();
+		for(OrderPojo p : orderPojos) {
 			List<OrderItemPojo> list = orderItemService.getByOrderId(p.getId());
 			List<OrderItemData> resultsItem = new ArrayList<OrderItemData>(); 
 			for(OrderItemPojo orderItemPojo : list) {
@@ -89,15 +91,20 @@ public class OrderDto {
 				data.setBarcode(productPojo.getBarcode());
 				resultsItem.add(data);
 			}
-			results.add(resultsItem);
+			OrderData orderData = new OrderData();
+			orderData.setId(p.getId());
+			orderData.setTime(p.getTime());
+			orderData.setOrderItemDatas(resultsItem);
+			results.add(orderData);
 		}
 		return results;
 	}
 	// Delete this api......add use orderServide.getByOrderId for downloading
 	@Transactional
-	public List<OrderItemData> getByOrderId(int orderId) throws ApiException{
+	public OrderData getByOrderId(int orderId) throws ApiException{
 		List<OrderItemPojo> list = orderItemService.getByOrderId(orderId);
 		List<OrderItemData> results = new ArrayList<OrderItemData>();
+		OrderData orderData = new OrderData();
 		for(OrderItemPojo p : list) {
 			OrderItemData data = OrderItemHelper.convert(p);
 			ProductPojo productPojo = productService.getCheck(p.getProductId());
@@ -105,7 +112,11 @@ public class OrderDto {
 			data.setBarcode(productPojo.getBarcode());
 			results.add(data);
 		}
-		return results;
+		OrderPojo orderPojo = orderService.get(orderId);
+		orderData.setId(orderId);
+		orderData.setTime(orderPojo.getTime());
+		orderData.setOrderItemDatas(results);
+		return orderData;
 	}
 	
 	@Transactional
@@ -136,6 +147,9 @@ public class OrderDto {
 			saleReportData.setQuantity(Category_Quantity_Map.get(category));
 			saleReportData.setRevenue(Category_Mrp_Map.get(category));
 			saleReportDatas.add(saleReportData);
+		}
+		if(saleReportDatas.size()==0) {
+			throw new ApiException("No Order found of this category between these days");
 		}
 		SaleXmlRootElement saleXmlRootElement = new SaleXmlRootElement();
 		saleXmlRootElement.setSaleReportDatas(saleReportDatas);

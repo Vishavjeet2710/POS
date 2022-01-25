@@ -38,7 +38,7 @@ public class ProductHelper {
 
 	public static void checkEmpty(ProductForm form) throws ApiException {
 		if(form.getName().isEmpty() || form.getBarcode().isEmpty() || form.getBrand().isEmpty() || form.getCategory().isEmpty()) {
-			throw new ApiException("Brand and Category can not be empty or null");
+			throw new ApiException("Please Complete the form first");
 		}
 	}
 	

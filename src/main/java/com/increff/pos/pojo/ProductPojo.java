@@ -7,15 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(indexes = {
 		@Index(name="uniqueBarcodeIndex" ,columnList = "barcode", unique = true)
-},
-uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"barcode"})
 })
 public class ProductPojo {
 	@Id

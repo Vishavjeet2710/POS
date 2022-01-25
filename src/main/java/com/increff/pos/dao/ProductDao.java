@@ -13,7 +13,7 @@ public class ProductDao extends AbstractDao{
 
 	private static final String SELECT_ID = "select p from ProductPojo p where id=:id";
 	private static final String SELECT_BARCODE = "select p from ProductPojo p where barcode=:barcode";
-	private static final String SELECT_NAME_BRAND_CATEGORY = "select p from ProductPojo p where name=:name and category=:category and brand=:brand";
+	private static final String SELECT_NAME_BRAND_CATEGORY = "select p from ProductPojo p,BrandPojo b where p.brand_category=b.id and p.name=:name and b.category=:category and b.brand=:brand";
 	private static final String SELECT_ALL = "select p from ProductPojo p";
 
 	public void insert(ProductPojo p) {

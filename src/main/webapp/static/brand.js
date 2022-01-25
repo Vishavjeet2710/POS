@@ -139,6 +139,8 @@ function editBrand(id){
     console.log(ele);
     document.getElementById("exBrandInput").value = ele.cells[1].innerHTML;
     document.getElementById("exCategoryInput").value = ele.cells[2].innerHTML;
+    document.getElementById("brandUpdateInput").value = ele.cells[1].innerHTML;
+    document.getElementById("categoryUpdateInput").value = ele.cells[2].innerHTML;
     $('#updateModal').modal('toggle');
 }
 

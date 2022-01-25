@@ -26,20 +26,24 @@
                 <div class="col-2">
                     <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeInput">
                 </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" name="brand" placeholder="Brand" id="brandInput">
+                <div class="col-3" id="brandOptions">
+                    <select  class="form-control" name="brand" onchange="getCategoryOptions(this.value)" id="brandInput">
+                    <option selected>Choose Brand...</option>
+                    </select>
                 </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" name="category" placeholder="Category" id="categoryInput">
+                <div class="col-3" id="categoryOptions">
+                    <select  class="form-control" name="category" id="categoryInput" disabled>
+                    <option selected>Choose Category...</option>
+                    </select>
                 </div>
                 <div class="col-2">
                     <input type="text" class="form-control" name="name" placeholder="Name" id="nameInput">
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <input type="text" class="form-control" name="mrp" onkeypress="return isDecimalKey(this,event)" placeholder="Mrp" id="mrpInput">
                 </div>                
-                <div class="col-2">
-                    <button type="submit" class="btn btn-primary mb-2 float-right" id="addProduct">&nbsp; Add &nbsp;</button>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary mb-2" id="addProduct">&nbsp; Add &nbsp;</button>
                 </div>
                 <!-- Comment off the following code to have update functionality -->
                 <!-- <div class="col-1">
@@ -96,6 +100,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col">
+                                <label for="barcodeUpdateInput">Barcode</label>
                                 <input type="text" class="form-control" name="barcode" placeholder="Barcode" id="barcodeUpdateInput">
                             </div>
                         </div>
@@ -106,20 +111,28 @@
                         </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-6">
-                                <input type="text" class="form-control" name="brand" placeholder="Brand" id="brandInput">
+                            <div class="col-6" id="brandUpdateOptions">
+                                <label for="brandUpdateInput">Brand</label>
+                                <select  class="form-control" name="brand" onchange="getCategoryUpdateOptions(this.value)" id="brandUpdateInput">
+                                    <option selected>Choose Brand...</option>
+                                </select>
                             </div>
-                            <div class="col-6">
-                                <input type="text" class="form-control" name="category" placeholder="Category" id="categoryInput">
+                            <div class="col-6" id="categoryUpdateOptions">
+                                <label for="categoryUpdateInput">Category</label>
+                                <select  class="form-control" name="category" id="categoryUpdateInput" disabled>
+                                    <option selected>Choose Category...</option>
+                                </select>
                             </div>
                         </div>
                         &nbsp;
                         <div class="form-row">
                             <div class="col-6">
-                                <input type="text" class="form-control" name="name" placeholder="Name" id="nameInput">
+                                <label for="nameUpdateInput">Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Name" id="nameUpdateInput">
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" name="mrp" onkeypress="return isDecimalKey(this,event)" placeholder="Mrp" id="mrpInput">
+                                <label for="mrpUpdateInput">MRP</label>
+                                <input type="text" class="form-control" name="mrp" onkeypress="return isDecimalKey(this,event)" placeholder="Mrp" id="mrpUpdateInput">
                             </div>
                         </div>
                     </form>

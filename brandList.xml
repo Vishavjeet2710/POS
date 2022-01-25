@@ -2,122 +2,12 @@
 <brandXmlRootElement>
     <brandDatas>
         <brand>amul</brand>
-        <category>doooooooooood</category>
-        <id>1</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>amul</brand>
-        <category>dairy</category>
+        <category>lassi</category>
         <id>2</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>mcd</brand>
-        <category>food</category>
-        <id>3</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>abc</brand>
-        <category>food</category>
-        <id>4</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>starbucks</brand>
-        <category>drinks</category>
-        <id>5</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>dominos</brand>
-        <category>food</category>
-        <id>6</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>subway</brand>
-        <category>food</category>
-        <id>7</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>nike</brand>
-        <category>shoes</category>
-        <id>8</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>brand one</brand>
-        <category>category one</category>
-        <id>9</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>brand two</brand>
-        <category>category two</category>
-        <id>10</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>brand three</brand>
-        <category>category three</category>
-        <id>11</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>brand four</brand>
-        <category>category four</category>
-        <id>12</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>nik bakers</brand>
-        <category>food</category>
-        <id>13</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>brand five</brand>
-        <category>category five</category>
-        <id>14</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>amul</brand>
-        <category>food</category>
-        <id>15</id>
     </brandDatas>
     <brandDatas>
         <brand>amul</brand>
         <category>milk</category>
-        <id>16</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>reebok</brand>
-        <category>shoes</category>
-        <id>17</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>amul</brand>
-        <category>diary</category>
-        <id>18</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>puma</brand>
-        <category>shoes</category>
-        <id>19</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>guess</brand>
-        <category>jacket</category>
-        <id>20</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>lakme</brand>
-        <category>cosmetics</category>
-        <id>21</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>teeling</brand>
-        <category>irish whiskey</category>
-        <id>22</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>bourbonn</brand>
-        <category>biscuits</category>
-        <id>23</id>
-    </brandDatas>
-    <brandDatas>
-        <brand>puma</brand>
-        <category>clothes</category>
-        <id>24</id>
+        <id>1</id>
     </brandDatas>
 </brandXmlRootElement>

@@ -69,6 +69,79 @@ function addOrderItemList(){
     addOrder(json);
 }
 
+
+function getBrandSaleReportOptions(){
+    $.ajax({
+        url: '../api/brand',
+        type: 'GET',
+        success: function(response){
+            console.log("Brand list fetched");
+            displayBrandSaleReportOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
+        }
+    });
+    return false;
+}
+
+function displayBrandSaleReportOptions(list){
+    var $select=$('#brandOptions').find('select');;
+    $select.empty();
+    console.log("Printing Brand options");
+    var brand = [];
+    for(i in list){
+        brand.push(list[i].brand);
+    }
+    brand = [... new Set(brand)];
+    $select.append('<option selected>'+ "Choose Brand..." +'</option>');
+    for(i in brand){
+        var row ='<option>'+ brand[i] +'</option>';
+        $select.append(row);
+    }
+}
+
+function getCategorySaleReportOptions(val){
+    if(val=="Choose Brand..."){
+        var $select=$('#categoryOptions').find('select');
+        $select.empty();
+        $select.append('<option selected>'+ "Choose Category..." +'</option>');
+        document.getElementById("categorySaleReportInput").disabled = true;
+        return false;
+    }
+    var $form = {brand : val};
+    console.log($form);
+    var json = JSON.stringify($form);
+    $.ajax({
+        url: '../api/brand/fetch-categories',
+        type: 'PUT',
+        data: json,
+        contentType:'application/json; charset=utf-8',
+        success: function(response){
+            console.log("Category list fetched");
+            displayCategorySaleReportOptions(response);
+        },
+        error:function(){
+            alert("Some error occured while fetching brand options");
+        }
+    });
+    return false;
+}
+
+function displayCategorySaleReportOptions(list){
+    document.getElementById("categorySaleReportInput").disabled = false;
+    var $select=$('#categoryOptions').find('select');
+    $select.empty();
+    console.log("Printing Brand options");
+    $select.append('<option selected>'+ "Choose Category..." +'</option>');
+    for(i in list){
+        var p = list[i];
+        console.log("YES");
+        console.log(p);
+        var row ='<option>'+ p.category +'</option>';
+        $select.append(row);
+    }
+}
 function checkExisting(){
     var barcodeCheck = $('#barcodeInput').val();
     var existing = document.getElementById('localID_'+barcodeCheck+'');
@@ -254,11 +327,7 @@ function getOrderList(){
 function getOrder(list){
     for(e in list){
         console.log(list[e]);
-        if(Object.keys(list[e]).length==0){
-
-        }else{
-            displayOrderItem(list[e]);
-        }
+        displayOrderItem(list[e]);
     }
 }
 
@@ -266,9 +335,9 @@ function displayOrderItem(list){
     console.log("Printing Order");
     var $tbody=$('#orderTableMainBody');
     console.log(list);
-    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list[0].orderId+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list[0].orderId+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">S/N</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
-    for(i in list){
-        var b = list[i];
+    var innerTable = '<tr><td colspan="4"><div class="row">&nbsp;<div class="col">Order ID :'+list.id+'</div><button type="button" class="btn btn-secondary float-right btn-sm mb-2" name="action" onclick="downloadInvoice('+list.id+')">Download</button>&nbsp;&nbsp;&nbsp;</div><table class="table" id="orderTable"><thead class="table-dark"><tr><th scope="col" name="id">S/N</th><th scope="col" name="barcode">Barcode</th><th scope="col" name="quantity">Quantity</th><th scope="col" name="mrp">Mrp</th></tr></thead><tbody>';
+    for(i in list.orderItemDatas){
+        var b = list.orderItemDatas[i];
         var row ='<tr>'
         +'<th scope="row">'+ String(parseInt(i)+1)+'</th>'
         +'<td>'+b.barcode+'</td>'
@@ -372,8 +441,18 @@ function displayUploadData(){
 
 function downloadSaleReport(){
     console.log("Downloading");
-    var $form = $("#saleReportForm");
-    var json=toJson($form);
+    var $form = {};
+    
+    $form["startDateTime"]=document.getElementById("startDateTime").value;
+    $form["endDateTime"]=document.getElementById("endDateTime").value;
+    $form["brand"]=document.getElementById("brandSaleReportInput").value;
+    if(document.getElementById("categorySaleReportInput").value=="Choose Category..."){
+        $form["category"]="";
+    }else{
+        $form["category"]=document.getElementById("categorySaleReportInput").value;
+    }
+    var json=JSON.stringify($form);
+    console.log(json);
     url='../api/order/download/';
     $.ajax(
     {
@@ -395,7 +474,7 @@ function downloadSaleReport(){
         link.click();
     },
     error: function(response){
-        alert(JSON.stringify(response));
+        alert("No Order found of this brand and category between these days");
     }
     });
     resetForm("saleReportForm");
@@ -442,21 +521,22 @@ function init(){
 
 $(document).ready(init)
 $(document).ready(getOrderList)
-$('#myModal').on('hidden.bs.modal', function() {
-    $('.collapse').collapse('hide');
-  });
-  $('#myModal').on('shown.bs.modal', function() {
-    $('#collapseOne').collapse('show');
-  });
+$(document).ready(getBrandSaleReportOptions);
+// $('#myModal').on('hidden.bs.modal', function() {
+//     $('.collapse').collapse('hide');
+//   });
+//   $('#myModal').on('shown.bs.modal', function() {
+//     $('#collapseOne').collapse('show');
+//   });
   
   
   
-  $('#accordion').find('.panel-default:has(".in")').addClass('panel-primary');
+//   $('#accordion').find('.panel-default:has(".in")').addClass('panel-primary');
   
-  $('#accordion').on('show.bs.collapse', function(e) {
-    $(e.target).closest('.panel-default').addClass(' panel-primary');
-    $('.collapse').collapse('hide');
-  }).on('hide.bs.collapse', function(e) {
-    $(e.target).closest('.panel-default').removeClass(' panel-primary');
-  })
+//   $('#accordion').on('show.bs.collapse', function(e) {
+//     $(e.target).closest('.panel-default').addClass(' panel-primary');
+//     $('.collapse').collapse('hide');
+//   }).on('hide.bs.collapse', function(e) {
+//     $(e.target).closest('.panel-default').removeClass(' panel-primary');
+//   })
   

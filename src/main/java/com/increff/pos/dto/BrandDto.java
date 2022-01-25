@@ -13,6 +13,7 @@ import com.increff.pos.helper.BrandHelper;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.CategoryOptionsForm;
 import com.increff.pos.model.UpdateBrandForm;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.service.BrandService;
@@ -44,6 +45,11 @@ public class BrandDto {
 	public List<BrandData> getAll(){
 		return BrandHelper.convert(service.getAll());
 		
+	}
+	
+	@Transactional
+	public List<BrandData> getByBrand(CategoryOptionsForm form){
+		return BrandHelper.convert(service.getByBrand(form.getBrand()));
 	}
 	
 	@Transactional(rollbackOn = Exception.class)

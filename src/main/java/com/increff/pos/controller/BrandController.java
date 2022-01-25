@@ -19,6 +19,7 @@ import com.increff.pos.dto.BrandDto;
 import com.increff.pos.model.ApiException;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.CategoryOptionsForm;
 import com.increff.pos.model.UpdateBrandForm;
 import com.increff.pos.xmlRootElement.BrandXmlRootElement;
 
@@ -49,6 +50,12 @@ public class BrandController {
 	@GetMapping(value = "")
 	public List<BrandData> getAll() {
 		return dto.getAll();
+	}
+	
+	@ApiOperation(value = "Get all Brand Masters by brand name")
+	@PutMapping(value = "/fetch-categories")
+	public List<BrandData> getByBrand(@RequestBody CategoryOptionsForm form) {
+		return dto.getByBrand(form);
 	}
 
 	@ApiOperation(value = "Update a Brand Master")

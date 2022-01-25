@@ -31,6 +31,9 @@ public class SaleReportForm {
 	}
 
 	public String getCategory() {
+		if(category=="Choose Category..." || category=="choose category...") {
+			category="";
+		}
 		return category;
 	}
 
